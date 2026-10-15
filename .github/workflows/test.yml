@@ -47,6 +47,9 @@ jobs:
     # file of one probe, is a floor of about 20 minutes on a runner that no count goes below.
     strategy:
       fail-fast: false
+      # Leave some GitHub-hosted Windows runners for Telegram preview and images.
+      # Only scheduling changes: same languages, editions, parts and tests.
+      max-parallel: 16
       matrix:
         python-version: ["3.12", "3.13", "3.14"]
         experimental: [false]
