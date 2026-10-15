@@ -124,3 +124,44 @@ jobs:
             build/dist/*.sha256
           if-no-files-found: error
           retention-days: 7
+
+  # One-off maintenance lane. Runs only on the deliberately marked source
+  # commit, never on normal pushes or pull requests.
+  screenshots-refresh:
+    if: contains(github.event.head_commit.message, '[regenerate-images]')
+    needs: [telegram, contracts]
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: feature/telegram-notifications
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+      - name: Rebuild native GUI for accurate screenshot capture
+        shell: pwsh
+        run: ./build/make_gui.ps1
+      - name: Regenerate only screenshots whose inputs moved
+        shell: pwsh
+        run: |
+          python build/make_screenshots.py --jobs 2 --windows 1
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python build/make_screenshots.py --breathe --jobs 2 --windows 1
+          exit $LASTEXITCODE
+      - name: Commit verified generated assets to the development branch
+        shell: pwsh
+        run: |
+          git add -A assets docs/images
+          git diff --cached --quiet
+          if ($LASTEXITCODE -eq 0) { Write-Host "Screenshots already current"; exit 0 }
+          if ($LASTEXITCODE -ne 1) { exit $LASTEXITCODE }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "docs: regenerate Windows screenshots after UI changes"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          git push origin HEAD:refs/heads/feature/telegram-notifications
+          exit $LASTEXITCODE
