@@ -28,7 +28,6 @@
     "docs/DEVELOPMENT.ko.md": "docs/DEVELOPMENT.md",
     "docs/PLUGIN.ko.md": "docs/PLUGIN.md",
     "docs/VERIFY.ko.md": "docs/VERIFY.md",
-    "docs/FEATURE_MATRIX.ko.md": "docs/FEATURE_MATRIX.md",
     "docs/GUIDE.ko.md": "docs/GUIDE.md",
     "docs/LIVE_ACCEPTANCE.ko.md": "docs/LIVE_ACCEPTANCE.md",
     "docs/ROADMAP.ko.md": "docs/ROADMAP.md",
@@ -44,7 +43,8 @@
     "docs/TELEGRAM_RU.md": "Telegram fork feature guide written for Russian-speaking users, not an upstream Korean document.",
     "README.md": "Fork main README is now in Russian, not English. The original author's Korean README remains linked at upstream and is not a translation of this fork's text.",
     "docs/PRIVACY.md": "This fork adds Telegram-specific privacy exceptions not translated into Korean here. Refer to upstream for its original Korean privacy policy.",
-    "docs/SECURITY.md": "This fork adds Telegram-specific security exceptions not translated into Korean here. Refer to upstream for its original Korean security policy."
+    "docs/SECURITY.md": "This fork adds Telegram-specific security exceptions not translated into Korean here. Refer to upstream for its original Korean security policy.",
+    "docs/FEATURE_MATRIX.md": "TheEleage fork: its compatibility matrix now covers additional Telegram-specific test contracts; no Korean translation of these fork changes has been reviewed. Historical upstream Korean documentation remains available from the original author."
   },
   "_reviewed_comment": [
     "The English source each Korean document was last translated from.",
@@ -69,7 +69,6 @@
     "docs/DEVELOPMENT.md": "e62cfbe43c855d5c87bfce8e0d69eba649f625f3f1d508818d8126de723b73de",
     "docs/PLUGIN.md": "e61e04ca4f08f01dc2e1ab89d8f443a2f6915b8ff38bbddce63900ddde42c945",
     "docs/VERIFY.md": "64c0d82d1101d02429707828e326dc29caed063d041b500ae5c88bbb9a0bc2e7",
-    "docs/FEATURE_MATRIX.md": "fff9b7fa2836aedc752c6c5d7ca7d5960c974042badd25c968fd392e862e309b",
     "docs/LIVE_ACCEPTANCE.md": "0c7c71b31d40ac1a4af254808730f3dfe17d30713373fb84c8c97e237808e11f",
     "docs/ROADMAP.md": "7538a0905ff0a410e34f7d462a2e75ef04d7df4cd497f548ae63f28693b0681d",
     "docs/GUIDE.md": "e9d9658eeb4a8e964cc22117b0bd1040e6dcbdafcf4a764ad044297ce13cc795",
