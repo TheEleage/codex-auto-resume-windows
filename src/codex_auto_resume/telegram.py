@@ -10,6 +10,7 @@ import base64
 import ctypes
 from ctypes import wintypes
 from datetime import datetime
+from .domain import states
 import json
 import os
 from pathlib import Path
@@ -177,9 +178,10 @@ def _message(event, notice, detail=None) -> str:
     thread_line = "\nБеседа: " + thread if isinstance(thread, str) and thread else ""
     reset_line = ""
     when = detail.get("reset_at")
-    if event == "interruption" and type(when) in (int, float) and 946684800 <= when <= 4102444800:
+    if event == "interruption":
         try:
-            reset_line = "\nОжидаемое снятие лимита: " + datetime.fromtimestamp(when).strftime("%d.%m.%Y %H:%M")
+            if states.epoch(when, *states.EPOCH_CODEX, exact=True):
+                reset_line = "\nОжидаемое снятие лимита: " + datetime.fromtimestamp(when).strftime("%d.%m.%Y %H:%M")
         except (OSError, OverflowError, ValueError):
             pass
     return "Codex Auto Resume\n" + name + reset_line + thread_line
