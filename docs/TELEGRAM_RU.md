@@ -29,17 +29,34 @@ Telegram наследует включённые типы уведомлений
 
 ## Проверка
 
-После загрузки кода выполни в каталоге репозитория:
+В каталоге исходников на Windows с Python 3.12 или новее:
 
-    python -m pytest -q tests/test_telegram_mirror.py
-    python -m pytest -q tests/test_locale.py tests/test_l10n.py tests/test_settings.py
+```powershell
+$env:PYTHONPATH = "src"
+python -m unittest discover -s tests -p test_telegram_mirror.py -v
+python -m unittest discover -s tests -p test_telegram_dpapi_windows.py -v
+python -m unittest discover -s tests -p test_privacy_claims.py -v
+```
 
-Полную сборку Windows GUI и реальную отправку бота ещё нужно проверить на ПК с Windows.
+Второй набор использует **настоящий Windows DPAPI**, но только синтетический токен
+и временный каталог. Он не связывается с Telegram. Дополнительные проверки
+интерфейса, архитектуры и сборки запускаются в GitHub Actions:
+[Telegram integration checks](https://github.com/TheEleage/codex-auto-resume-windows/actions).
+
+Кнопка **«Проверить связь»** — отдельное действие: она отправляет одно тестовое
+сообщение через Telegram Bot API и передаёт туда токен бота и Chat ID.
+Она не запускает и не возобновляет задачи Codex. Токен и Chat ID сначала нужно
+сохранить. Ответ API подтверждает принятие сообщения, но не чтение человеком.
+
+[Предварительные ZIP и установщики Standard/Advanced](https://github.com/TheEleage/codex-auto-resume-windows/actions)
+публикуются исключительно в артефактах CI; это **не релизы**.
+До успешной полной матрицы тестов, генерации новых скриншотов и проверки
+с настоящим ботом устанавливать их вместо рабочей версии не рекомендуется.
 
 ## Ограничения
 
 - Команды управления из Telegram не реализованы.
 - Goal Continuation в этой ветке не менялся.
 - Нет гарантии прочтения человеком, только подтверждение API Telegram.
-- Эта ветка пока содержит исходники, не готовый Windows-установщик.
+- Есть предварительные установщики Windows из GitHub Actions, но стабильный релиз форка ещё не опубликован.
 - Сброс обычных настроек не удаляет токен; канал отключается отдельно. При полной очистке данных файл Telegram удаляется.
