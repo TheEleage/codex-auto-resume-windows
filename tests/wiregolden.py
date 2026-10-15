@@ -467,6 +467,13 @@ BRIDGE_CASES = {
                                  show={"phase": "grace", "waiting_for": None,
                                        "grace_until": generator.ENVELOPE_NOW + 1800}))],
     "settings": [Case("the stored settings")],
+    # TheEleage fork: no bot token is present in a public status answer.
+    "telegram-status": [Case("a new installation has Telegram disabled")],
+    "telegram-test": [Case("the test needs saved credentials first")],
+    "telegram-update": [
+        Case("refuse a bad token", {"token": "not-a-token"}),
+        Case("refuse to enable an unconfigured bot", {"enabled": True}),
+        Case("refuse unknown fields", {"unrecognized": True})],
     "describe": [Case("the settings schema the Settings page is built from"),
                  Case("greyed where an administrator's policy key decides",
                       using=_managed(max_recovery_attempts=2, force_observe_only=True, quiet_hours=(NIGHT,)))],

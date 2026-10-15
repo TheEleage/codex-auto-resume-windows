@@ -13,6 +13,7 @@ namespace CodexAutoResume
         private TextBox telegramToken;
         private TextBox telegramChat;
         private Label telegramFeedback;
+        private Button telegramLoad;
         private Button telegramSave;
         private Button telegramTest;
 
@@ -29,11 +30,17 @@ namespace CodexAutoResume
             telegramToken = new TextBox();
             telegramToken.Width = Px(290);
             telegramToken.UseSystemPasswordChar = true;
+            telegramToken.BackColor = Card;
+            telegramToken.ForeColor = Ink;
+            telegramToken.BorderStyle = BorderStyle.FixedSingle;
             telegramToken.AccessibleName = "Токен Telegram-бота";
             card.Controls.Add(NewRow("Токен бота (пусто — оставить прежний)", telegramToken));
 
             telegramChat = new TextBox();
             telegramChat.Width = Px(290);
+            telegramChat.BackColor = Card;
+            telegramChat.ForeColor = Ink;
+            telegramChat.BorderStyle = BorderStyle.FixedSingle;
             telegramChat.AccessibleName = "Telegram Chat ID";
             card.Controls.Add(NewRow("Chat ID пользователя, группы или канала", telegramChat));
             card.Controls.Add(HelpText(
@@ -41,7 +48,7 @@ namespace CodexAutoResume
                 "Токен хранится отдельно, зашифрован средствами Windows. " +
                 "Тексты задач и ответы Codex в Telegram не передаются."));
 
-            telegramFeedback = HelpText("Чтение настроек Telegram…");
+            telegramFeedback = HelpText("Нажми «Загрузить настройки», чтобы подключить Telegram.");
             card.Controls.Add(telegramFeedback);
             var actions = new FlowLayoutPanel();
             actions.AutoSize = true;
@@ -49,15 +56,24 @@ namespace CodexAutoResume
             actions.Dock = DockStyle.Fill;
             actions.FlowDirection = FlowDirection.LeftToRight;
 
-            telegramSave = MakeButton("Сохранить Telegram", true, delegate { SaveTelegram(); });
+            telegramLoad = MakeButton("Загрузить настройки", false, delegate { LoadTelegram(); });
+            telegramSave = MakeButton("Сохранить Telegram", false, delegate { SaveTelegram(); });
             telegramTest = MakeButton("Проверить связь", false, delegate { TestTelegram(); });
             telegramSave.Enabled = telegramTest.Enabled = false;
+            actions.Controls.Add(telegramLoad);
             actions.Controls.Add(telegramSave);
             actions.Controls.Add(telegramTest);
             card.Controls.Add(actions);
 
+        }
+
+        private void LoadTelegram()
+        {
+            telegramLoad.Enabled = false;
+            telegramFeedback.Text = "Чтение настроек Telegram…";
             CallAsync("telegram-status", null, delegate(Dictionary<string, object> reply)
             {
+                telegramLoad.Enabled = true;
                 if (!Ok(reply))
                 {
                     telegramFeedback.Text = "Не удалось прочитать настройки Telegram.";

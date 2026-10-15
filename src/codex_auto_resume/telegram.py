@@ -137,7 +137,7 @@ def configure(paths, data: dict) -> dict:
     fd, temporary = tempfile.mkstemp(prefix="telegram.", suffix=".tmp", dir=str(target.parent))
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as out:
-            json.dump(obj, out, ensure_ascii=False)
+            json.dump(obj, out, ensure_ascii=False, allow_nan=False)
             out.flush()
             os.fsync(out.fileno())
         os.replace(temporary, target)

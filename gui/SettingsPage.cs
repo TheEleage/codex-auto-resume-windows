@@ -440,8 +440,8 @@ namespace CodexAutoResume
             CheckBox startup = NewCheck(S("field.startup", "Run at Windows sign-in"), false, false);
             windows.Controls.Add(startup);
             editors["__startup"] = startup;
-            TableLayoutPanel notifications = NewGroup(S("group.notifications", "Notifications"), sections["general"]);
             BuildTelegram(sections["general"]);
+            TableLayoutPanel notifications = NewGroup(S("group.notifications", "Notifications"), sections["general"]);
             // v0.6.12: the power action after usage-limit recoveries, the last card - never an editor (SettingsPower.cs).
             BuildPower(sections["general"]);
 

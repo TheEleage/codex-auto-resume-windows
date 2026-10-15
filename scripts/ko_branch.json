@@ -42,7 +42,9 @@
   "intentionally_english": {
     "LICENSE": "The authoritative licence text. A translation would be a second licence.",
     "skills/codex-auto-resume/SKILL.md": "Instructions Codex reads to operate the plugin, not prose a person reads. Translating it would make the two branches behave differently, which is exactly what generating ko from main exists to prevent.",
-    ".github/GENERATED-BRANCH.md": "Written by the generator, for maintainers, and only exists on ko."
+    ".github/GENERATED-BRANCH.md": "Written by the generator, for maintainers, and only exists on ko.",
+    "README_RU.md": "Russian-language documentation of TheEleage fork, not an upstream Korean document.",
+    "docs/TELEGRAM_RU.md": "Telegram fork feature guide written for Russian-speaking users, not an upstream Korean document."
   },
   "_reviewed_comment": [
     "The English source each Korean document was last translated from.",

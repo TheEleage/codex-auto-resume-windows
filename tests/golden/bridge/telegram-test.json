@@ -1,0 +1,14 @@
+{
+  "command": "telegram-test",
+  "cases": [
+    {
+      "case": "the test needs saved credentials first",
+      "argument": null,
+      "reply": {
+        "ok": false,
+        "error": "Токен не настроен или недоступен текущему пользователю Windows",
+        "error_code": "telegram_error"
+      }
+    }
+  ]
+}

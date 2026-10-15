@@ -1,0 +1,17 @@
+{
+  "command": "telegram-status",
+  "cases": [
+    {
+      "case": "a new installation has Telegram disabled",
+      "argument": null,
+      "reply": {
+        "ok": true,
+        "result": {
+          "enabled": false,
+          "configured": false,
+          "chat_id": ""
+        }
+      }
+    }
+  ]
+}

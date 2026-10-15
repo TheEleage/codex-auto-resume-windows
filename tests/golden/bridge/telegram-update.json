@@ -1,0 +1,38 @@
+{
+  "command": "telegram-update",
+  "cases": [
+    {
+      "case": "refuse a bad token",
+      "argument": {
+        "token": "not-a-token"
+      },
+      "reply": {
+        "ok": false,
+        "error": "Неправильный формат токена бота",
+        "error_code": "telegram_error"
+      }
+    },
+    {
+      "case": "refuse to enable an unconfigured bot",
+      "argument": {
+        "enabled": true
+      },
+      "reply": {
+        "ok": false,
+        "error": "Для включения укажи токен бота и Chat ID",
+        "error_code": "telegram_error"
+      }
+    },
+    {
+      "case": "refuse unknown fields",
+      "argument": {
+        "unrecognized": true
+      },
+      "reply": {
+        "ok": false,
+        "error": "Неправильные параметры Telegram",
+        "error_code": "telegram_error"
+      }
+    }
+  ]
+}
