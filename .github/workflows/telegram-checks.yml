@@ -1,0 +1,56 @@
+name: Telegram integration checks
+
+on:
+  push:
+    branches: [feature/telegram-notifications]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: telegram-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  telegram:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+
+      - name: Compile Python sources
+        run: python -m compileall -q src tests
+
+      - name: Telegram unit and privacy tests
+        shell: pwsh
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m unittest discover -s tests -p test_telegram_mirror.py -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s tests -p test_privacy_claims.py -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Windows GUI compilation and tests
+        shell: pwsh
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m unittest discover -s tests -p test_guiscan.py -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s tests -p test_gui_json.py -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Recovery notification regression tests
+        shell: pwsh
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m unittest discover -s tests -p test_power_action_watcher.py -v
+          exit $LASTEXITCODE
