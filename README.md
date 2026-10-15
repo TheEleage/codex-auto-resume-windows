@@ -1,9 +1,27 @@
 # Codex Auto Resume
 
+> **TheEleage fork — work in progress.** This fork is based on the original project
+> **[Codex Auto Resume by songyb111-gachon](https://github.com/songyb111-gachon/codex-auto-resume-windows)**.
+> The original author retains attribution for the original program.
+> **[TheEleage](https://github.com/TheEleage)** maintains this fork and its additions:
+> opt-in Telegram notification mirroring, Russian translation refinements (17 revised strings),
+> and corresponding tests and documentation.
+>
+> **[Русское описание форка / Russian fork overview](README_RU.md)** ·
+> [Telegram setup (Russian)](docs/TELEGRAM_RU.md) ·
+> [Development PR #1](https://github.com/TheEleage/codex-auto-resume-windows/pull/1)
+>
+> **Development status:** the Telegram extension is on
+> [feature/telegram-notifications](https://github.com/TheEleage/codex-auto-resume-windows/tree/feature/telegram-notifications),
+> not merged into `main` or released as a Windows installer. Until Windows build and tests
+> are verified, the upstream installation links below install the original upstream release,
+> **without these fork-only changes**. Telegram is disabled by default and sends short
+> notifications to an external service only when explicitly enabled.
+
 **Automatically resume the exact same Codex task on Windows after a usage limit resets.**
 
-[![tests](https://github.com/songyb111-gachon/codex-auto-resume-windows/actions/workflows/test.yml/badge.svg)](https://github.com/songyb111-gachon/codex-auto-resume-windows/actions/workflows/test.yml)
-[![latest release](https://img.shields.io/github/v/release/songyb111-gachon/codex-auto-resume-windows?label=release)](https://github.com/songyb111-gachon/codex-auto-resume-windows/releases/latest)
+[![fork tests](https://github.com/TheEleage/codex-auto-resume-windows/actions/workflows/test.yml/badge.svg)](https://github.com/TheEleage/codex-auto-resume-windows/actions/workflows/test.yml)
+[![latest release](https://img.shields.io/github/v/release/songyb111-gachon/codex-auto-resume-windows?label=upstream%20release)](https://github.com/songyb111-gachon/codex-auto-resume-windows/releases/latest)
 [![platform: Windows 10/11](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078d4)](#install)
 [![license: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![languages: 16](https://img.shields.io/badge/languages-16-0891b2)](https://github.com/songyb111-gachon/codex-auto-resume-windows/blob/main/docs/GUIDE.md#languages)
@@ -37,7 +55,7 @@ setting, the notification, the command line, the safety model and privacy in ful
 | **Identity** | the exact conversation UUID only — never `--last`, never "the most recent one", never a title or a folder name |
 | **Configure it** | the Dashboard from the Start Menu, a settings panel inside Codex, or the command line |
 | **Languages** | English · 한국어 · 日本語 · 简体中文 · 繁體中文 · Español · Deutsch · Français · Português (Brasil) · Русский · Italiano · Türkçe · Polski · Українська · Tiếng Việt · Bahasa Indonesia |
-| **Privacy** | no telemetry, no analytics, no automatic update check. Setting it up from Codex downloads the release from GitHub, and *Check for updates* asks GitHub which release is newest, and reads its list of releases on api.github.com for a newer pre-release, only when you press it; *Install another version...* reads that whole list there when you open it and again when you confirm a version, and downloads only the version you confirmed. The watcher has no network code; the usage check and the resumed turn go to OpenAI through Codex, as Codex's traffic always does |
+| **Privacy** | no telemetry, no analytics, no automatic update check. Setting it up from Codex downloads the release from GitHub, and *Check for updates* asks GitHub which release is newest, and reads its list of releases on api.github.com for a newer pre-release, only when you press it; *Install another version...* reads that whole list there when you open it and again when you confirm a version, and downloads only the version you confirmed. The original watcher only uses Codex's existing traffic to OpenAI; this fork also adds a separate, optional connection to Telegram when its notification channel is enabled. It sends minimal event data and the conversation ID if known, not prompts or project paths |
 
 > **One honest limitation, up front.** Codex has to currently have that conversation open for a
 > recovery to be delivered. If the app restarted since, open the conversation once and recovery
