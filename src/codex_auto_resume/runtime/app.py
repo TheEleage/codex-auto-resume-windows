@@ -421,7 +421,12 @@ class App(WatchLoop):
                 return notifier.deliver(notice, inbox=self._inbox,
                                         setting=self.settings.get(notifier.CARD_SETTING, True) is True)[1]
             finally:
-                telegram.mirror(self.paths, event, notice, self.logger.info, detail=detail)
+                # Some UI and regression probes use a minimal host without runtime paths.
+                # The optional mirror must not change the outcome of a local notification.
+                paths = getattr(self, "paths", None)
+                if paths is not None:
+                    log = getattr(getattr(self, "logger", None), "info", None)
+                    telegram.mirror(paths, event, notice, log, detail=detail)
         return announce
 
     def _watcher_notice(self, event, detail, *, final=False):
@@ -447,7 +452,10 @@ class App(WatchLoop):
         try:
             return notifier.deliver(notice, inbox=None if final else self._inbox, setting=card)[1]
         finally:
-            telegram.mirror(self.paths, event, notice, self.logger.info, detail=detail)
+            paths = getattr(self, "paths", None)
+            if paths is not None:
+                log = getattr(getattr(self, "logger", None), "info", None)
+                telegram.mirror(paths, event, notice, log, detail=detail)
 
     def _notice_action(self, uri):
         """A card's button, on a worker thread: what its toast button would do, done in process.
