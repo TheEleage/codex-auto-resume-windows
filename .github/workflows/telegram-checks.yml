@@ -125,20 +125,21 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  # One-off maintenance lane. Runs only on the deliberately marked source
-  # commit, never on normal pushes or pull requests.
+  # One-off screenshot refresh, triggered only by a marked branch commit.
+  # Build executes repository code with READ-ONLY access. No write token is
+  # present on the Windows build runner.
   screenshots-refresh:
     if: contains(github.event.head_commit.message, '[regenerate-images]')
     needs: [telegram, contracts]
     runs-on: windows-latest
     permissions:
-      contents: write
+      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: feature/telegram-notifications
+          ref: ${{ github.sha }}
           fetch-depth: 0
-          persist-credentials: true
+          persist-credentials: false
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.13"
@@ -152,16 +153,57 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python build/make_screenshots.py --breathe --jobs 2 --windows 1
           exit $LASTEXITCODE
-      - name: Commit verified generated assets to the development branch
-        shell: pwsh
+      - name: Hand off generated assets (no write token on renderer)
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: TheEleage-Windows-Generated-Screenshots
+          path: |
+            assets/
+            docs/images/
+          if-no-files-found: error
+          retention-days: 7
+
+  # This job only copies generated files. It does NOT execute repository
+  # code or untrusted scripts while holding contents:write.
+  screenshots-publish:
+    if: contains(github.event.head_commit.message, '[regenerate-images]')
+    needs: [screenshots-refresh]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: feature/telegram-notifications
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify the source branch has not advanced since rendering
+        shell: bash
+        env:
+          SOURCE_SHA: ${{ github.sha }}
         run: |
-          git add -A assets docs/images
-          git diff --cached --quiet
-          if ($LASTEXITCODE -eq 0) { Write-Host "Screenshots already current"; exit 0 }
-          if ($LASTEXITCODE -ne 1) { exit $LASTEXITCODE }
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: TheEleage-Windows-Generated-Screenshots
+          path: .
+      - name: Commit generated assets without storing a token on disk
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git add -A -- assets docs/images
+          if git diff --cached --quiet; then
+            echo "Screenshot files were already current"
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "docs: regenerate Windows screenshots after UI changes"
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          git push origin HEAD:refs/heads/feature/telegram-notifications
-          exit $LASTEXITCODE
+          git commit -m "docs: regenerate Windows screenshots after GUI changes"
+          # Do not persist credentials in checkout/.git. Authenticate solely
+          # for this single push in the non-executing publication job.
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $auth" \
+            push origin HEAD:refs/heads/feature/telegram-notifications
