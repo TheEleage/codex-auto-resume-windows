@@ -122,6 +122,25 @@ class TelegramTests(unittest.TestCase):
         telegram.configure(self.paths, {"enabled": False})
         self.assertFalse(telegram.mirror(self.paths, "needs_you", SimpleNamespace(key="uuid")))
 
+    def test_control_bridge_does_not_return_token(self):
+        from codex_auto_resume import controlcli
+        self.configure()
+        control = SimpleNamespace(paths=self.paths)
+        status = controlcli.dispatch(control, "telegram-status", {})
+        self.assertTrue(status["ok"])
+        self.assertNotIn(TOKEN, json.dumps(status))
+        with mock.patch.object(telegram, "test", return_value={"sent": True}):
+            result = controlcli.dispatch(control, "telegram-test", {})
+        self.assertEqual(result, {"ok": True, "result": {"sent": True}})
+
+    def test_bridge_refuses_invalid_token_without_echoing_it(self):
+        from codex_auto_resume import controlcli
+        control = SimpleNamespace(paths=self.paths)
+        payload = {"enabled": True, "chat_id": "1234", "token": "BADTOKEN"}
+        answer = controlcli.dispatch(control, "telegram-update", payload)
+        self.assertFalse(answer["ok"])
+        self.assertNotIn("BADTOKEN", json.dumps(answer))
+
     def test_symlink_is_ignored(self):
         external = self.paths.state_dir / "other.json"
         external.write_text('{"enabled":true,"encrypted_token":"abc"}', encoding="utf-8")
