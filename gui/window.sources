@@ -33,6 +33,7 @@ gui/WindowJson.cs
 gui/SettingsPage.cs
 gui/SettingsPower.cs
 gui/SettingsHomes.cs
+gui/SettingsTelegram.cs
 gui/SettingsOwn.cs
 gui/WindowReopen.cs
 gui/WindowAudit.cs
