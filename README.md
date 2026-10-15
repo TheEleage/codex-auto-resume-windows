@@ -7,8 +7,8 @@
 > opt-in Telegram notification mirroring, Russian translation refinements (17 revised strings),
 > and corresponding tests and documentation.
 >
-> **[Русское описание форка / Russian fork overview](README_RU.md)** ·
-> [Telegram setup (Russian)](docs/TELEGRAM_RU.md) ·
+> **[Русское описание форка / Russian fork overview](https://github.com/TheEleage/codex-auto-resume-windows/blob/feature/telegram-notifications/README_RU.md)** ·
+> [Telegram setup (Russian)](https://github.com/TheEleage/codex-auto-resume-windows/blob/feature/telegram-notifications/docs/TELEGRAM_RU.md) ·
 > [Development PR #1](https://github.com/TheEleage/codex-auto-resume-windows/pull/1)
 >
 > **Development status:** the Telegram extension is on

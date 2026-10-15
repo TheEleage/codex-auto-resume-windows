@@ -85,6 +85,12 @@ jobs:
           # of real tagged releases, so the tags and their commits must be here.
           fetch-depth: 0
 
+      # A fork does not inherit the original author's historical release tags.
+      # These tags are needed by the tests for backward compatibility.
+      - name: Fetch original release tags for compatibility tests
+        shell: pwsh
+        run: git fetch --no-tags https://github.com/songyb111-gachon/codex-auto-resume-windows.git "+refs/tags/*:refs/tags/*"
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
