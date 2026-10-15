@@ -34,7 +34,7 @@ ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
 # Every workflow, named: a new one is looked at here before anything else.
 KNOWN = ["community-file.yml", "community-report.yml", "durations.yml", "ko-watch.yml", "release.yml",
-         "sync-ko.yml", "test.yml"]
+         "sync-ko.yml", "telegram-checks.yml", "test.yml"]
 
 
 def text(name):
@@ -615,7 +615,7 @@ class TagsAreFetchedWhereTheSuiteRunsTests(unittest.TestCase):
 
     def test_the_set_of_workflows_that_run_the_suite_is_known(self):
         self.assertEqual([name for name, _ in self.workflows_that_run_the_suite()],
-                         ["release.yml", "sync-ko.yml", "test.yml"])
+                         ["release.yml", "sync-ko.yml", "telegram-checks.yml", "test.yml"])
 
     def test_each_of_them_checks_out_the_tags(self):
         for name, text in self.workflows_that_run_the_suite():

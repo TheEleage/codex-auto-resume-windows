@@ -551,7 +551,7 @@ class BridgeTests(ControlTestCase):
         self.assertEqual(code, 1)
         self.assertIs(payload["ok"], False)
 
-    def test_bridge_exposes_no_command_that_sends(self):
+    def test_bridge_exposes_no_command_that_sends_a_codex_turn(self):
         parser = controlcli.build_parser()
         actions = [action for action in parser._actions if action.dest == "command"]
         names = sorted(actions[0].choices)
@@ -604,7 +604,11 @@ class BridgeTests(ControlTestCase):
             "check-setting",
             # v0.6.12: the power action after usage-limit recoveries - what Windows offers, armed from the
             # Dashboard, turned off. A file write each, and nothing sent.
-            "power-action", "power-arm", "power-disarm"]))
+            "power-action", "power-arm", "power-disarm",
+            # TheEleage fork: bot configuration/read and an explicit test send
+            # to Telegram. None of these submits or retries a Codex conversation.
+            # telegram-test contacts an external service only when the user asks.
+            "telegram-status", "telegram-update", "telegram-test"]))
 
     def test_serve_answers_every_line_with_exactly_one_line(self):
         requests = "\n".join([
