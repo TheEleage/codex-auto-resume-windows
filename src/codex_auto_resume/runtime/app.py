@@ -453,7 +453,10 @@ class App(WatchLoop):
             return notifier.deliver(notice, inbox=None if final else self._inbox, setting=card)[1]
         finally:
             paths = getattr(self, "paths", None)
-            if paths is not None:
+            # Power warnings remain visible in Windows for safety, even when
+            # notifications are switched off. Telegram is an optional external
+            # service: its mirror always obeys the notification master switch.
+            if paths is not None and policy.notification_enabled(self.settings, event):
                 log = getattr(getattr(self, "logger", None), "info", None)
                 telegram.mirror(paths, event, notice, log, detail=detail)
 

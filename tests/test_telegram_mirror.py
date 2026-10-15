@@ -141,6 +141,35 @@ class TelegramTests(unittest.TestCase):
         self.assertFalse(answer["ok"])
         self.assertNotIn("BADTOKEN", json.dumps(answer))
 
+    def test_master_switch_blocks_power_mirror_but_not_windows_safety_toast(self):
+        from codex_auto_resume.runtime.app import App
+        from codex_auto_resume import notifier
+        host = SimpleNamespace(settings={"notifications": False}, paths=self.paths, _inbox=None)
+        event = notifier.POWER_EVENTS[0]
+        notice = SimpleNamespace(key="")
+        with mock.patch.object(notifier, "build", return_value=notice), \
+             mock.patch.object(notifier, "deliver", return_value=(True, True)) as deliver, \
+             mock.patch.object(telegram, "mirror") as mirror:
+            self.assertTrue(App._show_watcher_notice(host, event, {}, final=True))
+            deliver.assert_called_once()
+            mirror.assert_not_called()
+            host.settings["notifications"] = True
+            self.assertTrue(App._show_watcher_notice(host, event, {}, final=True))
+            mirror.assert_called_once()
+
+    def test_notification_type_switch_blocks_telegram_before_building(self):
+        from codex_auto_resume.runtime.app import App
+        from codex_auto_resume import notifier
+        host = SimpleNamespace(settings={"notifications": True, "notify_needs_you": False},
+                               paths=self.paths, _inbox=None)
+        source = SimpleNamespace(identity=lambda _thread_id: None)
+        with mock.patch.object(notifier, "build") as build, \
+             mock.patch.object(telegram, "mirror") as mirror:
+            announce = App._notifier(host, source)
+            self.assertFalse(announce("needs_you", {"thread_id": "test"}))
+            build.assert_not_called()
+            mirror.assert_not_called()
+
     def test_symlink_is_ignored(self):
         external = self.paths.state_dir / "other.json"
         external.write_text('{"enabled":true,"encrypted_token":"abc"}', encoding="utf-8")
