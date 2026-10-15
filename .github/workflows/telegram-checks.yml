@@ -82,3 +82,45 @@ jobs:
             python -m unittest discover -s tests -p $pattern -q
             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           }
+
+  # Development artifacts for review only. This never creates or updates a
+  # GitHub Release and runs only after both quick Windows check lanes pass.
+  preview-package:
+    needs: [telegram, contracts]
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+      - name: Build Windows GUI and MCP launcher (both editions)
+        shell: pwsh
+        run: |
+          ./build/make_gui.ps1
+          ./build/make_gui.ps1 -Edition advanced
+      - name: Package portable Windows ZIP (standard)
+        run: python build/make_release.py --edition standard
+      - name: Package portable Windows ZIP (advanced)
+        run: python build/make_release.py --edition advanced
+      - name: Verify both embedded installers
+        shell: pwsh
+        run: |
+          python build/make_setup.py --check --edition standard
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python build/make_setup.py --check --edition advanced
+          exit $LASTEXITCODE
+      - name: Keep preview artifacts (NOT a GitHub release)
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: TheEleage-Telegram-Windows-PREVIEW
+          path: |
+            build/dist/*.zip
+            build/dist/*.exe
+            build/dist/*.sha256
+          if-no-files-found: error
+          retention-days: 7
