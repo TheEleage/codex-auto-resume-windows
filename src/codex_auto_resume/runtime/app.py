@@ -19,7 +19,7 @@ import time
 import traceback
 import uuid
 
-from .. import compatio, config, edition, l10n, managed, needsyou, notifier, settings as policy
+from .. import compatio, config, edition, l10n, managed, needsyou, notifier, telegram, settings as policy
 from ..codex import LocalSource
 from ..codex.pairing import app_engines
 from ..domain.plug import DEFER, EXTRA, Surface, guard
@@ -417,8 +417,11 @@ class App(WatchLoop):
             notice = notifier.build(event, detail, identity, sound=sound)
             if notice is None:
                 return False
-            return notifier.deliver(notice, inbox=self._inbox,
-                                    setting=self.settings.get(notifier.CARD_SETTING, True) is True)[1]
+            try:
+                return notifier.deliver(notice, inbox=self._inbox,
+                                        setting=self.settings.get(notifier.CARD_SETTING, True) is True)[1]
+            finally:
+                telegram.mirror(self.paths, event, notice, self.logger.info, detail=detail)
         return announce
 
     def _watcher_notice(self, event, detail, *, final=False):
@@ -441,7 +444,10 @@ class App(WatchLoop):
         if notice is None:
             return False
         card = not final and self.settings.get(notifier.CARD_SETTING, True) is True
-        return notifier.deliver(notice, inbox=None if final else self._inbox, setting=card)[1]
+        try:
+            return notifier.deliver(notice, inbox=None if final else self._inbox, setting=card)[1]
+        finally:
+            telegram.mirror(self.paths, event, notice, self.logger.info, detail=detail)
 
     def _notice_action(self, uri):
         """A card's button, on a worker thread: what its toast button would do, done in process.
