@@ -441,6 +441,7 @@ namespace CodexAutoResume
             windows.Controls.Add(startup);
             editors["__startup"] = startup;
             TableLayoutPanel notifications = NewGroup(S("group.notifications", "Notifications"), sections["general"]);
+            BuildTelegram(sections["general"]);
             // v0.6.12: the power action after usage-limit recoveries, the last card - never an editor (SettingsPower.cs).
             BuildPower(sections["general"]);
 
