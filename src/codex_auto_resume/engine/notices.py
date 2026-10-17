@@ -23,7 +23,10 @@ class NoticeMixin:
         # Windows can silence its own notifications while an opted-in Telegram
         # channel still needs the event. The channel does not change the saved
         # Windows settings; it only enables detecting an event for the mirror.
-        telegram_enabled = getattr(self, "telegram_notifications", lambda: False)()
+        try:
+            telegram_enabled = bool(getattr(self, "telegram_notifications", lambda: False)())
+        except Exception:
+            telegram_enabled = False  # A broken bot must not block failure detection.
         values = self.policy_values
         if telegram_enabled and not needsyou.told(values):
             values = dict(values, notifications=True, notify_needs_you=True)
