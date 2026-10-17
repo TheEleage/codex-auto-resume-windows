@@ -13,7 +13,6 @@ namespace CodexAutoResume
         private TextBox telegramToken;
         private TextBox telegramChat;
         private Label telegramFeedback;
-        private Button telegramLoad;
         private Button telegramSave;
         private Button telegramTest;
 
@@ -48,7 +47,7 @@ namespace CodexAutoResume
                 "Токен хранится отдельно, зашифрован средствами Windows. " +
                 "Тексты задач и ответы Codex в Telegram не передаются."));
 
-            telegramFeedback = HelpText("Нажми «Загрузить настройки», чтобы подключить Telegram.");
+            telegramFeedback = HelpText("Настройки Telegram загружаются автоматически…");
             card.Controls.Add(telegramFeedback);
             var actions = new FlowLayoutPanel();
             actions.AutoSize = true;
@@ -56,11 +55,9 @@ namespace CodexAutoResume
             actions.Dock = DockStyle.Fill;
             actions.FlowDirection = FlowDirection.LeftToRight;
 
-            telegramLoad = MakeButton("Загрузить настройки", false, delegate { LoadTelegram(); });
             telegramSave = MakeButton("Сохранить Telegram", false, delegate { SaveTelegram(); });
             telegramTest = MakeButton("Проверить связь", false, delegate { TestTelegram(); });
             telegramSave.Enabled = telegramTest.Enabled = false;
-            actions.Controls.Add(telegramLoad);
             actions.Controls.Add(telegramSave);
             actions.Controls.Add(telegramTest);
             card.Controls.Add(actions);
@@ -69,11 +66,9 @@ namespace CodexAutoResume
 
         private void LoadTelegram()
         {
-            telegramLoad.Enabled = false;
-            telegramFeedback.Text = "Чтение настроек Telegram…";
+            telegramFeedback.Text = "Чтение сохранённых настроек Telegram…";
             CallAsync("telegram-status", null, delegate(Dictionary<string, object> reply)
             {
-                telegramLoad.Enabled = true;
                 if (!Ok(reply))
                 {
                     telegramFeedback.Text = "Не удалось прочитать настройки Telegram.";
@@ -88,7 +83,8 @@ namespace CodexAutoResume
                 telegramOn.Checked = Equals(Get(data, "enabled"), true);
                 telegramChat.Text = Str(data, "chat_id") ?? "";
                 telegramFeedback.Text = Equals(Get(data, "configured"), true)
-                    ? "Токен сохранён. Оставь поле пустым, если менять его не нужно."
+                    ? (telegramOn.Checked ? "Telegram включён. Настройки загружены автоматически." :
+                        "Токен сохранён. Включи Telegram, чтобы получать уведомления.")
                     : "Токен пока не задан.";
                 telegramOn.Enabled = telegramSave.Enabled = telegramTest.Enabled = true;
             });
