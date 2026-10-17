@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 import queue
 import tempfile
+import threading
 from types import SimpleNamespace
 import unittest
 from unittest import mock
@@ -33,13 +34,14 @@ class TelegramTests(unittest.TestCase):
 
     def test_disabled_by_default(self):
         self.assertEqual(telegram.status(self.paths),
-                         {"enabled": False, "configured": False, "chat_id": ""})
+                         {"enabled": False, "configured": False, "chat_id": "", "credentials_ready": False})
         self.assertFalse(telegram.mirror(self.paths, "needs_you", SimpleNamespace(key="uuid")))
         self.assertFalse((self.paths.state_dir / "telegram.json").exists())
 
     def test_secret_is_encrypted_and_not_returned(self):
         self.assertEqual(self.configure(chat="-1001234567890"),
-                         {"enabled": True, "configured": True, "chat_id": "-1001234567890"})
+                         {"enabled": True, "configured": True, "chat_id": "-1001234567890",
+                          "credentials_ready": True})
         body = (self.paths.state_dir / "telegram.json").read_text(encoding="utf-8")
         self.assertNotIn(TOKEN, body)
         self.assertIn("encrypted_token", json.loads(body))
@@ -141,7 +143,7 @@ class TelegramTests(unittest.TestCase):
         self.assertFalse(answer["ok"])
         self.assertNotIn("BADTOKEN", json.dumps(answer))
 
-    def test_master_switch_blocks_power_mirror_but_not_windows_safety_toast(self):
+    def test_power_toast_still_shows_without_windows_notification_switch(self):
         from codex_auto_resume.runtime.app import App
         from codex_auto_resume import notifier
         host = SimpleNamespace(settings={"notifications": False}, paths=self.paths, _inbox=None)
@@ -152,23 +154,72 @@ class TelegramTests(unittest.TestCase):
              mock.patch.object(telegram, "mirror") as mirror:
             self.assertTrue(App._show_watcher_notice(host, event, {}, final=True))
             deliver.assert_called_once()
+            # Telegram is no longer coupled to Windows notification rendering.
             mirror.assert_not_called()
-            host.settings["notifications"] = True
-            self.assertTrue(App._show_watcher_notice(host, event, {}, final=True))
+            self.configure()
+            self.assertTrue(App._telegram_event(host, event, {}))
             mirror.assert_called_once()
 
-    def test_notification_type_switch_blocks_telegram_before_building(self):
+    def test_disabled_windows_notice_does_not_block_telegram_event(self):
         from codex_auto_resume.runtime.app import App
         from codex_auto_resume import notifier
+        self.configure()
         host = SimpleNamespace(settings={"notifications": True, "notify_needs_you": False},
                                paths=self.paths, _inbox=None)
         source = SimpleNamespace(identity=lambda _thread_id: None)
         with mock.patch.object(notifier, "build") as build, \
-             mock.patch.object(telegram, "mirror") as mirror:
+             mock.patch.object(telegram, "mirror", return_value=True) as mirror:
             announce = App._notifier(host, source)
             self.assertFalse(announce("needs_you", {"thread_id": "test"}))
             build.assert_not_called()
-            mirror.assert_not_called()
+            self.assertTrue(App._telegram_event(host, "needs_you", {"thread_id": "test"}))
+            mirror.assert_called_once()
+
+    def test_sender_queues_before_windows_toast_is_processed(self):
+        from codex_auto_resume.runtime.toasts import Toasts
+        called = []
+        shown = threading.Event()
+        def present(_event, _detail):
+            shown.set()
+            raise RuntimeError("Windows notifications are unavailable")
+        channel = Toasts(present, SimpleNamespace(info=lambda *_: None),
+                         mirror=lambda event, detail: called.append((event, detail)))
+        self.assertTrue(channel("needs_you", {"thread_id": "test"}))
+        self.assertEqual(called, [("needs_you", {"thread_id": "test"})])
+        self.assertTrue(shown.wait(3))
+
+    def test_saved_bot_is_activated_on_watcher_start_and_when_settings_change(self):
+        from codex_auto_resume.runtime.app import App
+        events = []
+        host = SimpleNamespace(paths=self.paths, _telegram_stamp_seen=None,
+                               _telegram_event=lambda event, data: events.append(event))
+        App._telegram_sync(host)
+        self.assertEqual(events, [])
+        self.configure()
+        App._telegram_sync(host)
+        self.assertEqual(events, ["monitor_started"])
+        App._telegram_sync(host)
+        self.assertEqual(len(events), 1)
+        telegram.configure(self.paths, {"enabled": False})
+        App._telegram_sync(host)
+        self.assertEqual(len(events), 1)
+        telegram.configure(self.paths, {"enabled": True, "chat_id": "12345678"})
+        App._telegram_sync(host)
+        self.assertEqual(events, ["monitor_started", "monitor_started"])
+
+    def test_monitor_start_and_result_message_without_windows_notice(self):
+        self.assertIn("Монитор запущен", telegram._message("monitor_started", None))
+        msg = telegram._message("result", None,
+                                {"thread_id": "my-thread", "state": "turn_started"})
+        self.assertIn("Возобновление подтверждено", msg)
+        self.assertIn("my-thread", msg)
+
+    def test_windows_card_loads_saved_telegram_settings_automatically(self):
+        root = Path(__file__).resolve().parents[1]
+        panel = (root / "gui" / "SettingsPage.cs").read_text(encoding="utf-8")
+        telegram_card = (root / "gui" / "SettingsTelegram.cs").read_text(encoding="utf-8")
+        self.assertIn("LoadTelegram();  // Read the saved bot settings", panel)
+        self.assertNotIn("Загрузить настройки", telegram_card)
 
     def test_symlink_is_ignored(self):
         external = self.paths.state_dir / "other.json"
