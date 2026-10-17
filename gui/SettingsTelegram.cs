@@ -82,10 +82,12 @@ namespace CodexAutoResume
                 }
                 telegramOn.Checked = Equals(Get(data, "enabled"), true);
                 telegramChat.Text = Str(data, "chat_id") ?? "";
-                telegramFeedback.Text = Equals(Get(data, "configured"), true)
-                    ? (telegramOn.Checked ? "Telegram включён. Настройки загружены автоматически." :
-                        "Токен сохранён. Включи Telegram, чтобы получать уведомления.")
-                    : "Токен пока не задан.";
+                bool configured = Equals(Get(data, "configured"), true);
+                bool ready = Equals(Get(data, "credentials_ready"), true);
+                telegramFeedback.Text = !configured ? "Токен пока не задан." : !ready
+                    ? "Сохранённый токен недоступен. Укажи токен заново и сохрани." : telegramOn.Checked
+                    ? "Telegram включён. Данные загружены; монитор отправляет события автоматически."
+                    : "Токен сохранён. Включи Telegram, чтобы получать уведомления.";
                 telegramOn.Enabled = telegramSave.Enabled = telegramTest.Enabled = true;
             });
         }
