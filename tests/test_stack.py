@@ -168,7 +168,7 @@ ITEM = {_q(name): item for item, names in {
               "ui.popup.words", "ui.popup.messages",
               # v0.6.11: what a screen reader is told of the popup, and asks of it.
               "ui.popup.access"),
-    "notifications": ("notice_card", "notice_presence", "notice_window", "notifier", "notify",
+    "notifications": ("notice_card", "notice_presence", "notice_window", "notifier", "notify", "telegram",
                       "ui.card", "ui.card.win32", "ui.card.surfaces", "ui.card.card", "ui.card.stack"),
     "words": ("l10n", "messages", "interface", "ui.words"),
     "brand": ("brand", "brand.checkbox", "brand.colour", "brand.css", "brand.design", "brand.elevation",

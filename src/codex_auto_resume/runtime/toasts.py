@@ -21,15 +21,24 @@ class Toasts:
     the event and says so: a notification must never delay or decide a recovery.
     """
 
-    def __init__(self, show, logger):
+    def __init__(self, show, logger, *, mirror=None):
         self._show, self._logger = show, logger
+        # The Telegram channel receives an event when it is produced, not after
+        # Windows finishes presenting the toast. It has its own bounded sender queue.
+        self._mirror = mirror
         self._queue = queue.Queue(maxsize=64)
         self._thread = None
         self._lock = threading.Lock()
 
     def __call__(self, event, detail):
+        snapshot = dict(detail)
+        if self._mirror is not None:
+            try:
+                self._mirror(event, snapshot)
+            except Exception:
+                self._logger.info("telegram: event dispatch failed (%s)", event)
         try:
-            self._queue.put_nowait((event, dict(detail)))
+            self._queue.put_nowait((event, snapshot))
         except queue.Full:
             self._logger.info("notification queue full; %s dropped", event)
             return False

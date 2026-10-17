@@ -26,41 +26,41 @@
     "classic",
     "plain"
   ],
-  "system_dpi": 144,
+  "system_dpi": 96,
   "inputs": {
     ".codex-plugin/plugin.json": "93895f89ec532f593ded4c4a19ca485828d384211c0e4b579ada3d8689717f3a",
-    "<window sources>": "daf88b31dd30bd664a629cc115ba6c4f797bbbb86649b33068867d9bc93e1335",
+    "<window sources>": "f1b4bc110e9aa4d18eeb4c7421721e4c5fba506394fe7f6425d4535ea9432ce5",
     "gui/app.manifest": "db5f16dcf2448fdd7e3812dfdaa6d2da893b92c27a982721d3f04cdc05559870",
     "assets/codex-auto-resume.ico": "45c3f3a0d02d78f9be0b80532eedc2f524cd7ebe1056007dacdb286ca743bd52",
     "build/capture_window.ps1": "15b5897082d9d6a24056ff5780d8b24909a1b48738730dfa3387c59e7abd382c",
     "build/make_gui.ps1": "12fc4fc4d2633e3b52e5b318eeb850e561fe9887a42eb4d4cc0b4926224ac21e",
     "build/make_screenshots.py": "b178fce1d8152f800d56a70d96b7a469c57b1951904007fd4027689f785ccc4a",
     "<bridge envelope:en>": "49395f6184a62093e713f5187e0261dc1711f50a7e96836bcfd0f6d5ef86c00e",
-    "<panel render:en>": "ecadb0a7e7030e620192b56873b8aaf70b547b5fb5ed76adc99825ca1a4bb7f5",
+    "<panel render:en>": "e37ca71c2d7d2f113318762b0f7ee1285f91c2c1b27b11c948c61340f4007dc0",
     "<popup render:en>": "b5e7aab2402701aa27a8ef03913e77d39e925860c48c120cc8d624bdf98a8954",
     "<card render:en>": "e3ce2056492727981c37da4ddb054788ec55c32bc1c6d9af9edf558ec644d8c2",
     "<bridge envelope:ko>": "15fe1519bba6f0d45be141913f66348d0e9dc08b3fe20d3b2754bce9366f443e",
-    "<panel render:ko>": "c949a2df85c85341d10725042ed88c204e6f2bed53aa4ef9695044c1c4f51090",
+    "<panel render:ko>": "baace8d3cf771b315b8e248f720eea7a9abc29a351f57c89dc541edaa6f755d1",
     "<popup render:ko>": "d0a9a5c76b07a6350d9f4fd759b6af8c70ffdf4222f7fdb23b502022adab5aa5",
     "<card render:ko>": "f0e7fcf3ef826db8295f021b4fe6c00a154645a183cfd02b623f09b7623152c7",
     "<bridge envelope:ja>": "e4721390ca328f1ae2fcc9d0df8c2fb4b4789e87bb35fa27650ca28e627ca2e3",
-    "<panel render:ja>": "f8406dcc8909c23765103d9bafc9f8e25472c3e5e9014cacb624f3a474e28a57",
+    "<panel render:ja>": "7dc9c1b60708f54c745533e1610ad96810bac2f0210aeb882feb5c4a88c828a2",
     "<popup render:ja>": "a11a177da0a3263d4fa32e654655b852a3b7206bba5d5b62d364647446b37714",
     "<card render:ja>": "d45321c13e929d3ab7beacf57f95ad6f6e722897cec2f4a293832b45a8c73855",
     "<bridge envelope:zh-CN>": "097e68007d755962cbdfb6bab4fc849e104fdc0aa5921f647d2246f7b9c95e08",
-    "<panel render:zh-CN>": "0aa5fed1785fbe3d35c9cc11b0770102e6f8d8934f26b62502036931bc2cbad3",
+    "<panel render:zh-CN>": "c704c14f45c5c1d664234bb9ca38d7f54007da178f86ca3ae82f29fb1a24a392",
     "<popup render:zh-CN>": "5a66063357a922aac5113771e8b522480afa044ca9723747aebaa066b6a3398b",
     "<card render:zh-CN>": "8bb9169d3e537f5e86e1c3043cd41ecbe654cc249ce366949384c2a58a6a6f60",
     "<bridge envelope:de>": "8db39552f9191cd4abdb72d23f933fabde2e094a327c4bf4c81680e1af8eedf5",
-    "<panel render:de>": "74a461d3a86b4e10e413578e715d595dc0dc2537d0580eba6ec316b659bff6ac",
+    "<panel render:de>": "7e018ec68e2b0472d3380b65a950cd0def8cbe876496a03ea9c5abae92c80817",
     "<popup render:de>": "5ce7274674eafb2e54450f5e0efac981f46f922a47d13df03b1a426d5462ecdd",
     "<card render:de>": "5d28f8c66e15ee550f22b8398b41f1d1e757719f0245c30f1f8dc1aacdfc7036",
     "<bridge envelope:en:classic>": "63f29d70c8efc793d6f292c49e1bfa96a8b4e8b74dab92c13efe74999dec88fa",
-    "<panel render:en:classic>": "1999535117b7a359d3f5ad8d6af04873fc45974fad27dc62aa49eb7059d25b1b",
+    "<panel render:en:classic>": "9b09ded633212bbd76c63003ab48940fdeff1f9173f296afca67ae08315091db",
     "<popup render:en:classic>": "ca75ee8187eaf9663d912309cf6525e9160adaf5204b37d4e6ca9567c6dd73e9",
     "<card render:en:classic>": "9e63b9d5fe0ce8d1489e3c69a460abe118010ca1d729d70259394662e3d16d6f",
     "<bridge envelope:en:plain>": "91f2078b77eee7b831e2cc6d62893470a706f580180a2480b7ffb86d3c36b6a9",
-    "<panel render:en:plain>": "9370be8da997fd4dbceb47de7401e989154df3b2c5a48b63a9f063a341415b2e",
+    "<panel render:en:plain>": "d98e8addeea3e365c29b10de50087d8a52947fdd225525ff2912d452613c0e8c",
     "<popup render:en:plain>": "4a40ab04cd2f46b6b04ba5b8c99a4b68fbe5238991310b9df809c8790b1d0675",
     "<card render:en:plain>": "fa09ddcea11905a7fa5a27011b69b1acf9ab8fe9648378ee98eb85371cc5502b",
     "<icon motion>": "08a60c6c3c10b0db5cdbcf63f4ae5046852c8eedb05de01b262b6f4945e91829",
@@ -68,60 +68,60 @@
   },
   "images": {
     "assets/screenshot-panel.png": {
-      "sha256": "e0e026f8ab39ecf7807141820c0ef1d4b30bd2a50ae5c1b626ba69192135cac0",
-      "size": "1800x3882"
+      "sha256": "87e2f1fe2308a226302dead970392d536cdfa94075797fa0d04fc11f2e85485b",
+      "size": "1800x3846"
     },
     "assets/screenshot-dashboard.png": {
-      "sha256": "77cd37c18f0468d4e70c6e2d4dab400e18b2e29a182cfc704d9d50860c08a00e",
-      "size": "1500x1041"
+      "sha256": "aa5f163b3b4ec18050ff406c4d7c14077f77207bba052084a52a1769596fd413",
+      "size": "1000x695"
     },
     "assets/screenshot-pending.png": {
-      "sha256": "8275510946a122d7ba2b255bfa8390ba9561dfdbef9330d208b5be6d66faa204",
-      "size": "1500x1041"
+      "sha256": "9f2e2836af5539a776d715f02efbb88df8ccb85cdf39c88375e728351ce5b2fe",
+      "size": "1000x695"
     },
     "assets/screenshot-history.png": {
-      "sha256": "8790a7d463c164062fe47f062d72467269fdb97457e5f195aff263855c6663bd",
-      "size": "1500x1041"
+      "sha256": "927b3ab0fb2f946fe441cbbed147e0107c00f42cc0cb5bb0be41e0742c2217fc",
+      "size": "1000x695"
     },
     "assets/screenshot-statistics.png": {
-      "sha256": "aec7796607e5fcc4c7fe8fe0a765cc2234ac4c2ab8d3cb68e48566de4fa1df1d",
-      "size": "1500x1041"
+      "sha256": "219f6d033b5044dc29268912da0c44b76ff941e5fa2a724983ab9a0d095482a8",
+      "size": "1000x695"
     },
     "assets/screenshot-diagnostics.png": {
-      "sha256": "94ff5d4a02b828b321e12329f7b50482e26b4f4b267beb0a283574ef59e9d8a5",
-      "size": "1500x1041"
+      "sha256": "95cf9ee048112486d1098df43a2489e502f2ffe109d35c3021bcc8515576fb70",
+      "size": "1000x695"
     },
     "assets/screenshot-settings.png": {
-      "sha256": "4d2c9d1cff40c23ca3819f482613387011f979bef4d7fa26cb39be8ffee6be95",
-      "size": "1500x1041"
+      "sha256": "c6650aea33900d9cf47c317b0d6f1169d420f39e3339fff649857dbb1ec79bb9",
+      "size": "1000x695"
     },
     "assets/screenshot-panel-ko.png": {
-      "sha256": "d674f5cd57955b3bd8ca3266b74ede125c250138158ef55236d59a5282ae0335",
+      "sha256": "966f4c75416310cde86f428e20b6e9ee23cb1b027d2d8613c5fcedd65c0fe781",
       "size": "1800x3810"
     },
     "assets/screenshot-dashboard-ko.png": {
-      "sha256": "4519603a0896b4f55f52d58bcffd91a68dd21749e631e73b91b4d6e018b1582b",
-      "size": "1500x1041"
+      "sha256": "82d68b9019b1e1215eb083f89c4df4260125b7b0c2cfbf27bf00b59bd7e7eb58",
+      "size": "1000x695"
     },
     "assets/screenshot-pending-ko.png": {
-      "sha256": "276d882f2fd2023f135a3e363a4ce664ec85d60498916cbda329b5af67d95286",
-      "size": "1500x1041"
+      "sha256": "110fe5dabd54c2a2f3040e676456cd0440f9e815176ea8a11b67d8a1886ab510",
+      "size": "1000x695"
     },
     "assets/screenshot-history-ko.png": {
-      "sha256": "df24e62a8438d454bb01895ffe0ac4f859cf28cac1deecc13639b3399a2ae1fa",
-      "size": "1500x1041"
+      "sha256": "150d3d0abb70f5e933feb13317ca2a9f3a978d7be5a45204cbdfaa27ddba7c06",
+      "size": "1000x695"
     },
     "assets/screenshot-statistics-ko.png": {
-      "sha256": "7ea3dc0eced85bbba35971bb2fd999168cbfac2eed39c250a8de3832f7677e4f",
-      "size": "1500x1041"
+      "sha256": "b81738589a6c606694be73833da0659c77c071c0b9318402f7e9d962653c95f3",
+      "size": "1000x695"
     },
     "assets/screenshot-diagnostics-ko.png": {
-      "sha256": "c5302fd46fe5c929b296914fafbaa31aa89aa8bc2bc65eab89214667dd716f8b",
-      "size": "1500x1041"
+      "sha256": "38ce0503c1c55e118d18ed6c8ce504687cbf86f6b77a292e01e5301e7fc2fcce",
+      "size": "1000x695"
     },
     "assets/screenshot-settings-ko.png": {
-      "sha256": "143d26f97280628bac270a8c3e8fb05c54a6c2592b097cf6c791983191c876ff",
-      "size": "1500x1041"
+      "sha256": "37c2b0505d280d083dfe90cb4b19b77c24642ff2999a41cec82215c9e796a857",
+      "size": "1000x695"
     },
     "assets/screenshot-notification.png": {
       "sha256": "ec504541b8ed187a69b1a95db1df2ff0e061084ba6d76c016d0f299bb8a13f9f",
@@ -132,60 +132,60 @@
       "size": "776x524"
     },
     "docs/images/settings-panel.png": {
-      "sha256": "e0e026f8ab39ecf7807141820c0ef1d4b30bd2a50ae5c1b626ba69192135cac0",
-      "size": "1800x3882"
+      "sha256": "87e2f1fe2308a226302dead970392d536cdfa94075797fa0d04fc11f2e85485b",
+      "size": "1800x3846"
     },
     "docs/images/dashboard-overview.png": {
-      "sha256": "77cd37c18f0468d4e70c6e2d4dab400e18b2e29a182cfc704d9d50860c08a00e",
-      "size": "1500x1041"
+      "sha256": "aa5f163b3b4ec18050ff406c4d7c14077f77207bba052084a52a1769596fd413",
+      "size": "1000x695"
     },
     "docs/images/dashboard-pending.png": {
-      "sha256": "8275510946a122d7ba2b255bfa8390ba9561dfdbef9330d208b5be6d66faa204",
-      "size": "1500x1041"
+      "sha256": "9f2e2836af5539a776d715f02efbb88df8ccb85cdf39c88375e728351ce5b2fe",
+      "size": "1000x695"
     },
     "docs/images/dashboard-history.png": {
-      "sha256": "8790a7d463c164062fe47f062d72467269fdb97457e5f195aff263855c6663bd",
-      "size": "1500x1041"
+      "sha256": "927b3ab0fb2f946fe441cbbed147e0107c00f42cc0cb5bb0be41e0742c2217fc",
+      "size": "1000x695"
     },
     "docs/images/dashboard-statistics.png": {
-      "sha256": "aec7796607e5fcc4c7fe8fe0a765cc2234ac4c2ab8d3cb68e48566de4fa1df1d",
-      "size": "1500x1041"
+      "sha256": "219f6d033b5044dc29268912da0c44b76ff941e5fa2a724983ab9a0d095482a8",
+      "size": "1000x695"
     },
     "docs/images/dashboard-diagnostics.png": {
-      "sha256": "94ff5d4a02b828b321e12329f7b50482e26b4f4b267beb0a283574ef59e9d8a5",
-      "size": "1500x1041"
+      "sha256": "95cf9ee048112486d1098df43a2489e502f2ffe109d35c3021bcc8515576fb70",
+      "size": "1000x695"
     },
     "docs/images/settings-window.png": {
-      "sha256": "4d2c9d1cff40c23ca3819f482613387011f979bef4d7fa26cb39be8ffee6be95",
-      "size": "1500x1041"
+      "sha256": "c6650aea33900d9cf47c317b0d6f1169d420f39e3339fff649857dbb1ec79bb9",
+      "size": "1000x695"
     },
     "docs/images/settings-panel-ko.png": {
-      "sha256": "d674f5cd57955b3bd8ca3266b74ede125c250138158ef55236d59a5282ae0335",
+      "sha256": "966f4c75416310cde86f428e20b6e9ee23cb1b027d2d8613c5fcedd65c0fe781",
       "size": "1800x3810"
     },
     "docs/images/dashboard-overview-ko.png": {
-      "sha256": "4519603a0896b4f55f52d58bcffd91a68dd21749e631e73b91b4d6e018b1582b",
-      "size": "1500x1041"
+      "sha256": "82d68b9019b1e1215eb083f89c4df4260125b7b0c2cfbf27bf00b59bd7e7eb58",
+      "size": "1000x695"
     },
     "docs/images/dashboard-pending-ko.png": {
-      "sha256": "276d882f2fd2023f135a3e363a4ce664ec85d60498916cbda329b5af67d95286",
-      "size": "1500x1041"
+      "sha256": "110fe5dabd54c2a2f3040e676456cd0440f9e815176ea8a11b67d8a1886ab510",
+      "size": "1000x695"
     },
     "docs/images/dashboard-history-ko.png": {
-      "sha256": "df24e62a8438d454bb01895ffe0ac4f859cf28cac1deecc13639b3399a2ae1fa",
-      "size": "1500x1041"
+      "sha256": "150d3d0abb70f5e933feb13317ca2a9f3a978d7be5a45204cbdfaa27ddba7c06",
+      "size": "1000x695"
     },
     "docs/images/dashboard-statistics-ko.png": {
-      "sha256": "7ea3dc0eced85bbba35971bb2fd999168cbfac2eed39c250a8de3832f7677e4f",
-      "size": "1500x1041"
+      "sha256": "b81738589a6c606694be73833da0659c77c071c0b9318402f7e9d962653c95f3",
+      "size": "1000x695"
     },
     "docs/images/dashboard-diagnostics-ko.png": {
-      "sha256": "c5302fd46fe5c929b296914fafbaa31aa89aa8bc2bc65eab89214667dd716f8b",
-      "size": "1500x1041"
+      "sha256": "38ce0503c1c55e118d18ed6c8ce504687cbf86f6b77a292e01e5301e7fc2fcce",
+      "size": "1000x695"
     },
     "docs/images/settings-window-ko.png": {
-      "sha256": "143d26f97280628bac270a8c3e8fb05c54a6c2592b097cf6c791983191c876ff",
-      "size": "1500x1041"
+      "sha256": "37c2b0505d280d083dfe90cb4b19b77c24642ff2999a41cec82215c9e796a857",
+      "size": "1000x695"
     },
     "docs/images/notification-card.png": {
       "sha256": "ec504541b8ed187a69b1a95db1df2ff0e061084ba6d76c016d0f299bb8a13f9f",
@@ -212,20 +212,20 @@
       "size": "776x524"
     },
     "docs/images/settings-panel-ja.png": {
-      "sha256": "ba31bac9461b9b3672691c71975f1891e8e7faf0b2fa970af04522e20d936a14",
+      "sha256": "aed5c21a203fbce244c84d9a196608987345650340d408a0601bb9eb2c4274ce",
       "size": "1800x3882"
     },
     "docs/images/dashboard-overview-ja.png": {
-      "sha256": "de6f67db9cedb76769d61ec35cb0f2fc45e96a508cc3688b4971e62f7bbc7423",
-      "size": "1500x1041"
+      "sha256": "b36b9dfdb24486646fce2d692c4fa6c98ee00f117cacbed45b962b99b1bb65e1",
+      "size": "1000x695"
     },
     "docs/images/dashboard-pending-ja.png": {
-      "sha256": "7f06b609416985471c26b401ba7dbd1ba33165694857da283ad940b70c929ff6",
-      "size": "1500x1041"
+      "sha256": "c9ca321f1233ccd5652c62a4a009ca146cc9cb09e62f8fce891feec650f659a5",
+      "size": "1000x695"
     },
     "docs/images/settings-window-ja.png": {
-      "sha256": "ecf53f08fccdb9bb8356a1ad23cbb703df80ab7da31864efbee4987c363eb194",
-      "size": "1500x1041"
+      "sha256": "08f252cd21f9c16b810dde51c9586247d9400cc51b8ef12852be37a811b07cca",
+      "size": "1000x695"
     },
     "docs/images/tray-popup-zh-CN.png": {
       "sha256": "4ebd92f0c7a231d5e517926f2bb2d32351308a9da9953a1d524c263024145ab1",
@@ -236,20 +236,20 @@
       "size": "776x519"
     },
     "docs/images/settings-panel-zh-CN.png": {
-      "sha256": "4c968ab523a5f0fe48371453fbc5f3b4ca1c4dd51f3255b1c5a01e2310e67544",
+      "sha256": "c03337b2364decda9e3585807012570aa10b309fa8a853c0373158ca7e6d6817",
       "size": "1800x3810"
     },
     "docs/images/dashboard-overview-zh-CN.png": {
-      "sha256": "f850068257a1ae5c30d988e22bb2f7d4444bd7399091f360c394daf358d43369",
-      "size": "1500x1041"
+      "sha256": "156167f090cfcb4a474eb8fa00c4db432a4414fbab799246ef9d0887a902f135",
+      "size": "1000x695"
     },
     "docs/images/dashboard-pending-zh-CN.png": {
-      "sha256": "50b202b7f507af3c3905c5bbf64c959d5ccca04a6d7372c5080c48e0702483b0",
-      "size": "1500x1041"
+      "sha256": "08b70ea7ca7c5bfd7a1cc8101e27315b97b3686f56f042f6a9eef11d22a4191b",
+      "size": "1000x695"
     },
     "docs/images/settings-window-zh-CN.png": {
-      "sha256": "b563364bd0684a04d268079d89f5e05866d750bb8cb2a4431f2bc8d3d54406a0",
-      "size": "1500x1041"
+      "sha256": "def3c17fe947697be95af7feba82b347e7abe5aa4dd5b0b8a281a9aab39a7f64",
+      "size": "1000x695"
     },
     "docs/images/tray-popup-de.png": {
       "sha256": "9f81614810c7f988f194f25eade4658e101eb71c05ccfdcb5227b19545372577",
@@ -260,28 +260,28 @@
       "size": "776x540"
     },
     "docs/images/settings-panel-de.png": {
-      "sha256": "a12f1e8c04def07ff7fe11344608a65dd8a0a2693bb059a3b2837740c84c918a",
+      "sha256": "4c0b22c9bfe37c4c8396c0f5dcd5280bd0bf3d8862e37eebccc58263761db2b7",
       "size": "1800x3966"
     },
     "docs/images/dashboard-overview-de.png": {
-      "sha256": "a9edd82f1586a6103f955bd72852066d90478e72057a9481ae16c3760605f3de",
-      "size": "1500x1041"
+      "sha256": "b0092a20b3aeccf6fdc83dab692ae22473221b6464aa9734d2baeb12c1e356bf",
+      "size": "1000x695"
     },
     "docs/images/dashboard-pending-de.png": {
-      "sha256": "0af74a8ab9348fc2b7a9b7d37b89b3e4e1a216f59d1cd9f802d32741f5f10f22",
-      "size": "1500x1041"
+      "sha256": "f9407b7b3b5105418ef10aa8fefa68700eae73022a21b240bbb04fe8b07792f7",
+      "size": "1000x695"
     },
     "docs/images/settings-window-de.png": {
-      "sha256": "0898fe53a34fc536226ee3928213b610ad8c293c99946e86ca984278437b8901",
-      "size": "1500x1041"
+      "sha256": "787e0ffbd6f54eb96a915fc31d831b556aea90b2bf6ecb21147c4726d5a19f71",
+      "size": "1000x695"
     },
     "docs/images/design-classic-dashboard.png": {
-      "sha256": "b1e8d376734bcd523a9511209c92c79c9fb7dcc8a6595450da9d3d5bc9e5372b",
-      "size": "1500x1041"
+      "sha256": "b7578fdec2a11cc6ae9ebca5b896f1ec8d307f2a7180a9106115e288d874efe7",
+      "size": "1000x695"
     },
     "docs/images/design-classic-panel.png": {
-      "sha256": "56c9803c2e0f6bcb111bdf088abbb20ecaf5a2093173f0a18d0cd1bf88dbf922",
-      "size": "1800x3882"
+      "sha256": "309216a7bf0b7e4f177289688565ff8e058f64408a2903690108af8563022d51",
+      "size": "1800x3846"
     },
     "docs/images/design-classic-popup.png": {
       "sha256": "8b8e81772cbfa96d71931618cbdfd35c9bbc0e365835667cbdf7493f22e313e2",
@@ -292,12 +292,12 @@
       "size": "776x540"
     },
     "docs/images/design-plain-dashboard.png": {
-      "sha256": "0df3baa501b3c45de28d3f72de8ff4f5c64f74aa37b942e5cd1b47151ab8b3b0",
-      "size": "1500x1041"
+      "sha256": "17acf4c1f5ca581300b5372853906dca1622a5d7ae4a1562c891908bea9a2eb1",
+      "size": "1000x695"
     },
     "docs/images/design-plain-panel.png": {
-      "sha256": "54388d58994aad712bde9c604a1713d8a098b778b11138ccd21979a66cd9fe33",
-      "size": "1800x3882"
+      "sha256": "33d8daf718177a45d2c2d035ed34b37a6da9d532604bfdf02dc9f80ce2b91d66",
+      "size": "1800x3846"
     },
     "docs/images/design-plain-popup.png": {
       "sha256": "3f40e391fdab39f74ba9729014595d3da95c482e1d7b0de02dd39edf7d8018c1",
@@ -323,10 +323,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -338,10 +338,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -353,10 +353,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -368,10 +368,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -383,10 +383,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -398,10 +398,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -489,10 +489,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -504,10 +504,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -519,10 +519,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -534,10 +534,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -549,10 +549,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -564,10 +564,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -579,10 +579,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -594,10 +594,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -609,10 +609,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -624,10 +624,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -639,10 +639,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -654,10 +654,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -669,10 +669,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -684,10 +684,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -699,10 +699,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -714,10 +714,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -729,10 +729,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -744,10 +744,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -759,10 +759,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -774,10 +774,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -789,10 +789,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -804,10 +804,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -834,10 +834,10 @@
       "design": "classic",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#FFFFFF"
         }
@@ -902,10 +902,10 @@
       "design": "plain",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#FFFFFF"
         }
@@ -1145,10 +1145,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -1160,10 +1160,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -1175,10 +1175,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -1190,10 +1190,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }
@@ -1205,10 +1205,10 @@
       "design": "soft",
       "lights": [
         {
-          "x": 72.0,
-          "y": 118.0,
-          "radius": 8.0,
-          "scale": 1.5,
+          "x": 48.0,
+          "y": 80.0,
+          "radius": 5.5,
+          "scale": 1.0,
           "state": "waiting",
           "ground": "#F6F8FB"
         }

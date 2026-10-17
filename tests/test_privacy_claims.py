@@ -123,12 +123,22 @@ class CodePropertyTests(unittest.TestCase):
         compatibility report reaches GitHub only by delegation - it asks gh, the GitHub CLI the person
         installed, which is not this product's code (test_only_the_report_starts_gh_and_only_for_github_com)."""
         offenders = []
+        # The only network exception is the explicitly enabled Telegram transport.
+        # Every other module still fails if it imports a networking dependency.
+        allowed_in_telegram = {"import urllib.error", "import urllib.request"}
+        used_in_telegram = set()
         for path in tracked("src/*") + tracked("scripts/*.py") + tracked("advanced/src/*"):
             if path.suffix != ".py":
                 continue
             for match in NETWORKING.finditer(path.read_text(encoding="utf-8")):
-                offenders.append("%s: %s" % (path.relative_to(ROOT), match.group().strip()))
-        self.assertEqual(offenders, [], "the watcher would now be able to open a connection")
+                statement = match.group().strip()
+                if path.relative_to(ROOT).as_posix() == "src/codex_auto_resume/telegram.py" and statement in allowed_in_telegram:
+                    used_in_telegram.add(statement)
+                    continue
+                offenders.append("%s: %s" % (path.relative_to(ROOT), statement))
+        self.assertEqual(offenders, [], "unexpected network import in recovery runtime")
+        self.assertEqual(used_in_telegram, allowed_in_telegram,
+                         "the opt-in Telegram network boundary changed")
 
     def test_exactly_one_shipped_file_reaches_the_network(self):
         # build/ is developer-only and excluded from the release payload, so it may
@@ -195,7 +205,10 @@ class CodePropertyTests(unittest.TestCase):
             except (UnicodeDecodeError, OSError):
                 continue
             for url in re.findall(r"https?://[^\s\"'`)\]]+", text):
-                if not allowed.match(url):
+                telegram_endpoint = (path.relative_to(ROOT).as_posix() ==
+                                     "src/codex_auto_resume/telegram.py" and
+                                     url == "https://api.telegram.org/bot")
+                if not telegram_endpoint and not allowed.match(url):
                     offenders.append("%s: %s" % (path.relative_to(ROOT), url))
                 if url.startswith("https://api.github.com"):
                     api.add(url)

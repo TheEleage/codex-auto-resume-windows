@@ -19,7 +19,7 @@ import time
 import traceback
 import uuid
 
-from .. import compatio, config, edition, l10n, managed, needsyou, notifier, settings as policy
+from .. import compatio, config, edition, l10n, managed, needsyou, notifier, telegram, settings as policy
 from ..codex import LocalSource
 from ..codex.pairing import app_engines
 from ..domain.plug import DEFER, EXTRA, Surface, guard
@@ -116,6 +116,7 @@ class App(WatchLoop):
         self._compat = None
         self._engine_state = None
         self._settings_stamp_seen = self._settings_stamp()
+        self._telegram_stamp_seen = None  # First watcher tick activates any saved bot.
         self._home_lock = None
         self._plug = None
         # v0.6.15-beta: the one dispatch lock of this watcher, handed to every engine it builds (one per
@@ -278,7 +279,7 @@ class App(WatchLoop):
 
     def engine(self, store: Store, *, dispatch_lock=None) -> Engine:
         source = self.source()
-        kwargs = {"log": EngineLog(self.logger), "notify": Toasts(self._notifier(source), self.logger),
+        kwargs = {"log": EngineLog(self.logger), "notify": Toasts(self._notifier(source), self.logger, mirror=self._telegram_event),
                   "language": l10n.current(), "engine_state": self.engine_state,
                   "home_lock": lambda: self._home_lock is not None and self._home_lock.held,
                   # v0.6.11: asked only while Wait for an internet connection is on (power.py).
@@ -288,6 +289,7 @@ class App(WatchLoop):
         kwargs["open_store"] = self.worker_store
         engine = Engine(store, source, self.backend(), plug=self.plug, **kwargs)
         engine.apply_policy(self._stored, self.managed)
+        engine.telegram_notifications = lambda: telegram.status(self.paths)["enabled"]
         self._observe_only(engine)
         self._managed_pause(engine)
         return engine
@@ -388,6 +390,28 @@ class App(WatchLoop):
         self.logger.info("settings reloaded")
         return True
 
+    def _telegram_event(self, event, detail):
+        """Mirror the engine event on its own queue, independently of Windows notices."""
+        paths = getattr(self, "paths", None)
+        if paths is None:
+            return False
+        log = getattr(getattr(self, "logger", None), "info", None)
+        try:
+            return telegram.mirror(paths, event, None, log, detail=detail)
+        except Exception:
+            if log is not None:
+                log("telegram: event channel unavailable (%s)", event)
+            return False
+
+    def _telegram_sync(self):
+        """Start a saved Telegram channel automatically, and adopt changes while running."""
+        stamp = telegram.config_stamp(self.paths)
+        if stamp == self._telegram_stamp_seen:
+            return
+        self._telegram_stamp_seen = stamp
+        if telegram.status(self.paths)["enabled"]:
+            self._telegram_event("monitor_started", {})
+
     def _notifier(self, source):
         """Turn an engine lifecycle event into a notification: the card, or a Windows toast.
 
@@ -427,9 +451,11 @@ class App(WatchLoop):
         watcher is stopping - is Windows' own toast, raised before it goes: the card lives on the icon's
         thread, which ends with this watcher, and a toast outlives it in the notification center."""
         if final:
+            self._telegram_event(event, detail)
             return self._show_watcher_notice(event, detail, final=True)
         if getattr(self, "_watcher_toasts", None) is None:
-            self._watcher_toasts = Toasts(self._show_watcher_notice, self.logger)
+            self._watcher_toasts = Toasts(self._show_watcher_notice, self.logger,
+                                         mirror=self._telegram_event)
         return self._watcher_toasts(event, detail)
 
     def _show_watcher_notice(self, event, detail, final=False):
@@ -504,10 +530,12 @@ class App(WatchLoop):
         edition acts on the default home only - the watcher's one dispatch lock, that home's key, reader,
         backend and lock, and the policy every engine has."""
         engine = Engine(store, source, backend, plug=None, dispatch_lock=self.dispatch_lock, home_key=key,
-                        log=EngineLog(self.logger), notify=Toasts(self._notifier(source), self.logger),
+                        log=EngineLog(self.logger),
+                         notify=Toasts(self._notifier(source), self.logger, mirror=self._telegram_event),
                         language=l10n.current(), engine_state=self.engine_state, home_lock=held,
                         connectivity=network.internet)
         engine.apply_policy(self._stored, self.managed)
+        engine.telegram_notifications = lambda: telegram.status(self.paths)["enabled"]
         return engine
 
     def watcher_running(self) -> bool | None:

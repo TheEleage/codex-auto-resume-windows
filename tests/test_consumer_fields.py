@@ -155,6 +155,11 @@ _RECEIVERS = {
         "powerView": POWER_VIEW,
         "armed": _under(POWER_VIEW, ".armed"), "shown": _under(POWER_VIEW, ".shown"), "last": _under(POWER_VIEW, ".last"),
     },
+    # Telegram's status is a separate opt-in configuration, not part of the usual
+    # settings reply. The reply is tested against the telegram-status wire golden.
+    "gui/SettingsTelegram.cs": {
+        "data": [("bridge:telegram-status", "result")],
+    },
     # v0.6.15-beta: the Codex homes' card, beside what it has as a part of the Settings half (_spread).
     "gui/SettingsHomes.cs": {
         "view": [("bridge:status", "status.codex_homes"), ("bridge:dashboard", "status.codex_homes")],

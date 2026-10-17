@@ -47,6 +47,9 @@ jobs:
     # file of one probe, is a floor of about 20 minutes on a runner that no count goes below.
     strategy:
       fail-fast: false
+      # Leave some GitHub-hosted Windows runners for Telegram preview and images.
+      # Only scheduling changes: same languages, editions, parts and tests.
+      max-parallel: 16
       matrix:
         python-version: ["3.12", "3.13", "3.14"]
         experimental: [false]
@@ -84,6 +87,12 @@ jobs:
           # The upgrade and downgrade tests build their databases with the store code
           # of real tagged releases, so the tags and their commits must be here.
           fetch-depth: 0
+
+      # A fork does not inherit the original author's historical release tags.
+      # These tags are needed by the tests for backward compatibility.
+      - name: Fetch original release tags for compatibility tests
+        shell: pwsh
+        run: git fetch --no-tags https://github.com/songyb111-gachon/codex-auto-resume-windows.git "+refs/tags/*:refs/tags/*"
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0

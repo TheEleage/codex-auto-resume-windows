@@ -1,7 +1,10 @@
 # Privacy
 
-Codex Auto Resume runs on your machine. It has no server, no account and no telemetry, and
-the watcher makes no outbound network request of its own.
+Codex Auto Resume runs on your machine. It has no server, no account and no telemetry.
+The original app does not make outbound requests from its recovery runtime.
+**TheEleage fork adds one opt-in exception:** when Telegram notifications are
+explicitly enabled, a separate worker sends HTTPS requests to Telegram's Bot API.
+The Telegram channel is disabled by default.
 
 This page describes the standard edition. From v0.6.11 there is an advanced edition as well
 ([EDITIONS.md](EDITIONS.md)): it
@@ -11,7 +14,7 @@ adds. With none turned on and no measurement run, what it adds is little more th
 status saying which edition it is.
 
 It does cause network traffic, though, and that is worth stating up front rather than in a
-footnote. There are four kinds, and they are genuinely different:
+footnote. The original has four kinds; TheEleage fork optionally adds Telegram:
 
 - **OpenAI, through Codex.** The watcher drives the official Codex binary already signed in
   on your machine. When a recovery is due, it asks Codex for your current usage, and Codex
@@ -836,6 +839,16 @@ installed, to reach GitHub, and only when you start it (*What it sends to GitHub
 
 ## Third parties
 
+**Telegram (TheEleage fork only, and only when enabled).** The notification
+worker sends the bot token as part of the HTTPS Telegram Bot API URL, your
+configured Chat ID and minimal event text. The text may contain a Codex
+conversation UUID and the local expected time of a limit reset, but not
+task prompts, assistant replies, conversation titles, project paths or files.
+Telegram also sees the sender's IP address and request time. The bot token is
+stored encrypted with Windows DPAPI for the current user, outside settings.json.
+Disabling Telegram stops future messages but does not revoke the token: rotate
+it with BotFather if compromised. Use a private chat for notifications.
+
 **GitHub**, for the release download when you install or update from the plugin, or when
 you download the ZIP yourself; for the marketplace refresh described under
 [Installing it](#installing-it) when a marketplace it refreshes points at GitHub; for *Check
@@ -859,7 +872,8 @@ installers of v0.4.0 through v0.5.7 refresh every Git marketplace you have confi
 wherever each one points. Refreshing only this product's marketplace, by name, is new in
 v0.6.0.
 
-Beyond these, and a host that a GitHub redirect might send the download request to (see
+With optional Telegram turned off, beyond these and a host that a GitHub
+redirect might send the download request to (see
 [Installing it](#installing-it)), this tool sends nothing to any other party; Windows may
 make certificate checks of its own during the download. What runs is
 the Python standard library, the interpreter that ships in the release archive, two small

@@ -1,0 +1,126 @@
+name: Telegram integration checks
+
+on:
+  push:
+    branches: [feature/telegram-notifications]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: telegram-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  telegram:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+
+      - name: Compile Python sources
+        run: python -m compileall -q src tests
+
+      - name: Telegram unit and privacy tests
+        shell: pwsh
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m unittest discover -s tests -p test_telegram_mirror.py -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s tests -p test_telegram_dpapi_windows.py -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s tests -p test_privacy_claims.py -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Windows GUI compilation and tests
+        shell: pwsh
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m unittest discover -s tests -p test_guiscan.py -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s tests -p test_gui_json.py -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Recovery notification regression tests
+        shell: pwsh
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m unittest discover -s tests -p test_power_action_watcher.py -v
+          exit $LASTEXITCODE
+
+  contracts:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Fetch upstream release tags for migration tests
+        shell: pwsh
+        run: git fetch --no-tags https://github.com/songyb111-gachon/codex-auto-resume-windows.git "+refs/tags/*:refs/tags/*"
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+      - name: Check Telegram against repository contracts
+        shell: pwsh
+        env:
+          PYTHONPATH: src
+        run: |
+          $sets = @("test_wire_goldens.py", "test_consumer_fields.py", "test_layers.py", "test_stack.py", "test_json_writers.py", "test_l10n.py", "test_single_rules.py", "test_korean.py")
+          foreach ($pattern in $sets) {
+            Write-Host "Testing $pattern"
+            python -m unittest discover -s tests -p $pattern -q
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+
+  # Development artifacts for review only. This never creates or updates a
+  # GitHub Release and runs only after both quick Windows check lanes pass.
+  preview-package:
+    needs: [telegram, contracts]
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+      - name: Build Windows GUI and MCP launcher (both editions)
+        shell: pwsh
+        run: |
+          ./build/make_gui.ps1
+          ./build/make_gui.ps1 -Edition advanced
+      - name: Package portable Windows ZIP (standard)
+        run: python build/make_release.py --edition standard
+      - name: Package portable Windows ZIP (advanced)
+        run: python build/make_release.py --edition advanced
+      - name: Verify both embedded installers
+        shell: pwsh
+        run: |
+          python build/make_setup.py --check --edition standard
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python build/make_setup.py --check --edition advanced
+          exit $LASTEXITCODE
+      - name: Keep preview artifacts (NOT a GitHub release)
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: TheEleage-Telegram-Windows-PREVIEW
+          path: |
+            build/dist/*.zip
+            build/dist/*.exe
+            build/dist/*.sha256
+          if-no-files-found: error
+          retention-days: 7

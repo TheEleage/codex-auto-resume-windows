@@ -440,6 +440,7 @@ namespace CodexAutoResume
             CheckBox startup = NewCheck(S("field.startup", "Run at Windows sign-in"), false, false);
             windows.Controls.Add(startup);
             editors["__startup"] = startup;
+            BuildTelegram(sections["general"]);
             TableLayoutPanel notifications = NewGroup(S("group.notifications", "Notifications"), sections["general"]);
             // v0.6.12: the power action after usage-limit recoveries, the last card - never an editor (SettingsPower.cs).
             BuildPower(sections["general"]);
@@ -679,7 +680,11 @@ namespace CodexAutoResume
             baseline = EditorValues();
             CheckBox startupCheck = editors.ContainsKey("__startup") ? editors["__startup"] as CheckBox : null;
             startupBaseline = startupCheck != null && startupCheck.Checked;
-            if (!auditing) RefreshStatusAsync(null);
+            if (!auditing)
+            {
+                RefreshStatusAsync(null);
+                LoadTelegram();  // Read the saved bot settings each time the Settings page is built.
+            }
         }
 
         private void BuildContinuation(Dictionary<string, Dictionary<string, object>> fields,

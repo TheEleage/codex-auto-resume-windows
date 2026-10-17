@@ -53,7 +53,7 @@ import json
 from pathlib import Path
 import sys
 
-from . import config, l10n
+from . import config, l10n, telegram
 # Read at the top since v0.6.10-alpha: `windows` is the front of the Codex adapter now, and
 # the adapter and this reader are one package, so this module was loaded here either way. It
 # was deferred when the two were apart and it was a cost.
@@ -71,7 +71,7 @@ PLAIN = ("status", "settings", "describe", "defaults", "pending", "pending-all",
          # who may open the state folder; and Show me what happens.
          "plugin-copy", "state-access", "demo",
          # v0.6.12: what the power action after usage-limit recoveries offers here, and what is armed.
-         "power-action")
+         "power-action", "telegram-status", "telegram-test")
 WITH_ARGUMENT = ("update", "enabled", "startup", "cancel", "reset-budget", "retry-now",
                  "timeline", "statistics", "thread-enabled", "cancel-thread", "diagnostics",
                  "preview-continuation", "interruption-recovery",
@@ -89,7 +89,7 @@ WITH_ARGUMENT = ("update", "enabled", "startup", "cancel", "reset-budget", "retr
                  "check-setting",
                  # v0.6.12: the power action armed - from the Dashboard, which is this bridge's only
                  # caller that arms (H14) - and turned off.
-                 "power-arm", "power-disarm")
+                 "power-arm", "power-disarm", "telegram-update")
 # Big enough for the largest Save the settings layer accepts: eight Custom messages of 2000
 # characters each, and the window writes every line break as a six-character escape, so a
 # valid Save can come to nearly 100 KiB. At 64 KiB such a Save was refused as "request too
@@ -342,6 +342,19 @@ def dispatch(control: Control, command: str, payload: dict) -> dict:
             return {"ok": True, "status": control.get_status()}
         if command == "settings":
             return {"ok": True, "settings": control.get_settings()}
+        if command == "telegram-status":
+            return {"ok": True, "result": telegram.status(control.paths)}
+        if command == "telegram-update":
+            saved = telegram.configure(control.paths, payload)
+            # Wake the existing watcher so the integrated bot is activated or
+            # disabled immediately; never start a separate Telegram process.
+            try:
+                WakeEvent(str(control.paths.state_dir)).signal()
+            except Exception:
+                pass
+            return {"ok": True, "result": saved}
+        if command == "telegram-test":
+            return {"ok": True, "result": telegram.test(control.paths)}
         if command == "strings":
             # The interface vocabulary for the resolved language, handed over whole. The
             # window does not decide the language and does not carry its own English.
@@ -497,6 +510,8 @@ def dispatch(control: Control, command: str, payload: dict) -> dict:
             return {"ok": True, "result": {"path": str(written)}}
     except ControlError as exc:
         return _rejected(str(exc), exc.code)
+    except telegram.TelegramError as exc:
+        return _rejected(str(exc), "telegram_error")
     except Exception:
         # Never leak a traceback or a path into a front end; the log has the detail. The
         # code is the generic one, because nothing here knows what went wrong.

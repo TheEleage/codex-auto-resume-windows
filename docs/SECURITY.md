@@ -3,6 +3,12 @@
 This document describes what the tool is allowed to touch, how that is enforced, how releases are
 built and can be checked, how it was reviewed, and what was actually found and fixed.
 
+**TheEleage fork:** opt-in Telegram is a documented exception to the original
+runtime's no-network rule. It sends short event metadata only after the user
+enables the channel, stores the bot token under Windows DPAPI (CurrentUser),
+and cannot control Codex or bypass recovery safety checks. See
+[Privacy](PRIVACY.md) and [Telegram setup](https://github.com/TheEleage/codex-auto-resume-windows/blob/feature/telegram-notifications/docs/TELEGRAM_RU.md).
+
 This document describes the version this source tree builds, the one its
 `.codex-plugin/plugin.json` names. Historical differences below name the release they apply to.
 Unreleased source changes do not change any published release's bytes.
@@ -18,13 +24,16 @@ rest of this page promises - and what its measurement harness does when a person
 If you find a security issue, please open an issue on this repository.
 
 This project operates no service of its own - no server, no endpoint, no telemetry - so there is no
-vendor backend to notify. The only service the code this project ships contacts is GitHub
+vendor backend to notify. In the original tool the only service the shipped code contacts directly is GitHub
 (github.com, and the GitHub storage hosts it redirects release downloads to), when setup downloads
 a release and when you press *Check for updates* - which from v0.6.11 also reads this repository's
 list of releases at api.github.com - or *Install another version...*, which reads that whole list
 there, and, from v0.6.5, raw.githubusercontent.com, when you ask for
 the compatibility data refresh. The Codex processes it starts talk to OpenAI with your
-existing sign-in, as Codex does (see *No network code in the recovery runtime* below). A finding in GitHub or in Codex itself
+existing sign-in, as Codex does (the opt-in Telegram notifier in this fork is
+the exception to the *No network code in the recovery runtime* rule below).
+When enabled, the Telegram module also contacts Telegram Bot API over HTTPS.
+A finding in GitHub or in Codex itself
 belongs to that vendor's own reporting process, not here.
 
 ## What it touches
