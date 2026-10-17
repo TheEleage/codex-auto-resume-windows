@@ -20,11 +20,18 @@ class NoticeMixin:
         and recovery go on as they would have. A failure a record holds - one the edition's plug took up
         (v0.6.14) - is being recovered, or was, and its record says so: it needs no notice of its own,
         on the tick it was taken up or any after (v0.6.14)."""
-        if not needsyou.told(self.policy_values):
+        # Windows can silence its own notifications while an opted-in Telegram
+        # channel still needs the event. The channel does not change the saved
+        # Windows settings; it only enables detecting an event for the mirror.
+        telegram_enabled = getattr(self, "telegram_notifications", lambda: False)()
+        values = self.policy_values
+        if telegram_enabled and not needsyou.told(values):
+            values = dict(values, notifications=True, notify_needs_you=True)
+        if not needsyou.told(values):
             return
         now = self.clock()
         try:
-            kinds = needsyou.kinds(self.policy_values)
+            kinds = needsyou.kinds(values)
             for failure in failures:
                 done = failure.get("completed_at")
                 if (failure.get("category") in kinds and done is not None
@@ -32,7 +39,7 @@ class NoticeMixin:
                         and self.store.thread_enabled(failure["thread_id"])
                         and self.store.get(self._keyed(dict(failure))["interruption_id"]) is None):
                     self._notice(failure["interruption_id"], failure["thread_id"], failure["category"], now)
-            quiet = needsyou.stall_seconds(self.policy_values)
+            quiet = needsyou.stall_seconds(values)
             if quiet is None:
                 return
             start = max(since, now - needsyou.WINDOW_SECONDS)
