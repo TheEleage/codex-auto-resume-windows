@@ -289,6 +289,7 @@ class App(WatchLoop):
         kwargs["open_store"] = self.worker_store
         engine = Engine(store, source, self.backend(), plug=self.plug, **kwargs)
         engine.apply_policy(self._stored, self.managed)
+        engine.telegram_notifications = lambda: telegram.status(self.paths)["enabled"]
         self._observe_only(engine)
         self._managed_pause(engine)
         return engine
@@ -529,6 +530,7 @@ class App(WatchLoop):
                         language=l10n.current(), engine_state=self.engine_state, home_lock=held,
                         connectivity=network.internet)
         engine.apply_policy(self._stored, self.managed)
+        engine.telegram_notifications = lambda: telegram.status(self.paths)["enabled"]
         return engine
 
     def watcher_running(self) -> bool | None:
