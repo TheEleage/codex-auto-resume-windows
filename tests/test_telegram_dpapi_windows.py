@@ -30,7 +30,8 @@ class NativeDpapiTests(unittest.TestCase):
             saved = telegram.configure(paths, {
                 "enabled": True, "token": synthetic, "chat_id": "123456789"})
             self.assertEqual(saved, {
-                "enabled": True, "configured": True, "chat_id": "123456789"})
+                "enabled": True, "configured": True, "chat_id": "123456789",
+                "credentials_ready": True})
             written = (Path(temp) / "telegram.json").read_text(encoding="utf-8")
             self.assertNotIn(synthetic, written)
             self.assertNotIn("token\": \"123456789:", written)
