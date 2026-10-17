@@ -249,9 +249,15 @@ def _drain():
             # The user may have disabled Telegram while messages were waiting.
             if status(paths)["enabled"]:
                 _send(paths, message)
+                if log is not None:
+                    log("telegram: event accepted by Telegram API (%s)", event)
+        except TelegramError as exc:
+            if log is not None:
+                # TelegramError contains only our fixed, token-free error text.
+                log("telegram: delivery failed (%s; %s)", event, str(exc))
         except Exception:
             if log is not None:
-                log("telegram: notification could not be delivered (%s)", event)
+                log("telegram: delivery failed (%s; internal error)", event)
         finally:
             _QUEUE.task_done()
 
