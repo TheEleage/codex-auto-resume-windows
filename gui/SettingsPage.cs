@@ -680,7 +680,11 @@ namespace CodexAutoResume
             baseline = EditorValues();
             CheckBox startupCheck = editors.ContainsKey("__startup") ? editors["__startup"] as CheckBox : null;
             startupBaseline = startupCheck != null && startupCheck.Checked;
-            if (!auditing) RefreshStatusAsync(null);
+            if (!auditing)
+            {
+                RefreshStatusAsync(null);
+                LoadTelegram();  // Read the saved bot settings each time the Settings page is built.
+            }
         }
 
         private void BuildContinuation(Dictionary<string, Dictionary<string, object>> fields,
