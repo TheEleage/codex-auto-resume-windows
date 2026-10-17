@@ -99,9 +99,19 @@ def _read(paths) -> dict:
 
 def status(paths) -> dict:
     obj = _read(paths)
+    chat = obj.get("chat_id") if isinstance(obj.get("chat_id"), str) else ""
+    # A saved ciphertext can be unreadable after a Windows account change.
+    # Report local readiness without returning or logging the secret.
+    ready = False
+    if CHAT_PATTERN.fullmatch(chat) and obj.get("encrypted_token"):
+        try:
+            _token(obj)
+            ready = True
+        except TelegramError:
+            pass
     return {"enabled": obj.get("enabled") is True,
             "configured": bool(obj.get("encrypted_token")),
-            "chat_id": obj.get("chat_id") if isinstance(obj.get("chat_id"), str) else ""}
+            "chat_id": chat, "credentials_ready": ready}
 
 
 def _token(obj: dict) -> str:
