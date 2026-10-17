@@ -20,8 +20,8 @@ namespace CodexAutoResume
         {
             TableLayoutPanel card = NewGroup("Telegram-бот", stack);
             card.Controls.Add(HelpText(
-                "Дублировать в Telegram те уведомления, которые включены в общих настройках. " +
-                "Отключённый тип уведомления не будет отправляться в Telegram."));
+                "Telegram получает события Codex независимо от всплывающих уведомлений Windows. " +
+                "Бот запускается вместе с монитором и не требует отдельного запуска."));
             telegramOn = NewCheck("Отправлять уведомления в Telegram", false, false);
             telegramOn.Enabled = false;
             card.Controls.Add(telegramOn);
