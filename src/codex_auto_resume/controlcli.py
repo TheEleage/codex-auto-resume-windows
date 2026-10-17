@@ -345,7 +345,14 @@ def dispatch(control: Control, command: str, payload: dict) -> dict:
         if command == "telegram-status":
             return {"ok": True, "result": telegram.status(control.paths)}
         if command == "telegram-update":
-            return {"ok": True, "result": telegram.configure(control.paths, payload)}
+            saved = telegram.configure(control.paths, payload)
+            # Wake the existing watcher so the integrated bot is activated or
+            # disabled immediately; never start a separate Telegram process.
+            try:
+                WakeEvent(str(control.paths.state_dir)).signal()
+            except Exception:
+                pass
+            return {"ok": True, "result": saved}
         if command == "telegram-test":
             return {"ok": True, "result": telegram.test(control.paths)}
         if command == "strings":
