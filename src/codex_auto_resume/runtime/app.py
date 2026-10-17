@@ -396,7 +396,12 @@ class App(WatchLoop):
         if paths is None:
             return False
         log = getattr(getattr(self, "logger", None), "info", None)
-        return telegram.mirror(paths, event, None, log, detail=detail)
+        try:
+            return telegram.mirror(paths, event, None, log, detail=detail)
+        except Exception:
+            if log is not None:
+                log("telegram: event channel unavailable (%s)", event)
+            return False
 
     def _telegram_sync(self):
         """Start a saved Telegram channel automatically, and adopt changes while running."""
