@@ -207,6 +207,30 @@ class TelegramTests(unittest.TestCase):
         App._telegram_sync(host)
         self.assertEqual(events, ["monitor_started", "monitor_started"])
 
+    def test_needs_you_event_is_detected_for_telegram_when_local_alerts_are_off(self):
+        from codex_auto_resume.engine.notices import NoticeMixin
+        import time
+        now = time.time()
+        events = []
+        host = SimpleNamespace(
+            policy_values={"notifications": False, "notify_needs_you": False,
+                           "notify_needs_you_invalid": True, "stall_after": "off"},
+            telegram_notifications=lambda: True,
+            clock=lambda: now,
+            store=SimpleNamespace(thread_enabled=lambda _key: True,
+                                  get=lambda _key: None),
+            _keyed=lambda failure: failure,
+            _notice=lambda *args, **kwargs: events.append(args),
+            log=lambda *args, **kwargs: None,
+        )
+        failure = {"category": "terminal_invalid", "thread_id": "example",
+                   "interruption_id": "notice-key", "completed_at": now}
+        NoticeMixin.tell_needs_you(host, [failure], now - 10)
+        self.assertEqual(len(events), 1)
+        host.telegram_notifications = lambda: False
+        NoticeMixin.tell_needs_you(host, [failure], now - 10)
+        self.assertEqual(len(events), 1)
+
     def test_monitor_start_and_result_message_without_windows_notice(self):
         self.assertIn("Монитор запущен", telegram._message("monitor_started", None))
         msg = telegram._message("result", None,
