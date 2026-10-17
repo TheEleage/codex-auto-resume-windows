@@ -9,7 +9,8 @@
         "result": {
           "enabled": false,
           "configured": false,
-          "chat_id": ""
+          "chat_id": "",
+          "credentials_ready": false
         }
       }
     }
