@@ -74,6 +74,18 @@ def _path(paths) -> Path:
     return Path(paths.state_dir) / "telegram.json"
 
 
+def config_stamp(paths):
+    """Notice a saved bot being enabled, disabled or updated by Dashboard."""
+    target = _path(paths)
+    try:
+        if target.is_symlink():
+            return None
+        stat = target.stat()
+        return (stat.st_mtime_ns, stat.st_size)
+    except OSError:
+        return None
+
+
 def _read(paths) -> dict:
     target = _path(paths)
     try:
@@ -149,6 +161,7 @@ def configure(paths, data: dict) -> dict:
 
 
 EVENTS_RU = {
+    "monitor_started": "Монитор запущен. Telegram-уведомления активны",
     "interruption": "Работа прервана — ожидается возобновление",
     "objection": "Скоро будет отправлено продолжение",
     "starting": "Возобновление задачи запускается",
@@ -170,11 +183,14 @@ def _message(event, notice, detail=None) -> str:
     detail = detail if isinstance(detail, dict) else {}
     name = EVENTS_RU.get(event, "Событие Codex Auto Resume")
     if event == "result":
+        state = detail.get("state")
+        kind = ("resumed" if state in ("turn_started", "resumed") else
+                "unknown" if state == "submission_unknown" else "failed")
+        kind = getattr(notice, "kind", None) or kind
         name = {"resumed": "Возобновление подтверждено",
                 "failed": "Ошибка возобновления",
-                "unknown": "Результат отправки неизвестен — повтор не выполняется"}.get(
-                    getattr(notice, "kind", ""), name)
-    thread = getattr(notice, "key", "")
+                "unknown": "Результат отправки неизвестен — повтор не выполняется"}.get(kind, name)
+    thread = getattr(notice, "key", None) or detail.get("thread_id", "")
     thread_line = "\nБеседа: " + thread if isinstance(thread, str) and thread else ""
     reset_line = ""
     when = detail.get("reset_at")
