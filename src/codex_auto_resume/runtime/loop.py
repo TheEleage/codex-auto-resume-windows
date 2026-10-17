@@ -345,6 +345,11 @@ class WatchLoop:
             while True:
                 ok = False
                 try:
+                    # Telegram is an integrated watcher channel: load saved credentials
+                    # on start and whenever the settings card changes them. Never network
+                    # I/O on the tick; the channel queues its own delivery.
+                    if not once:
+                        self._telegram_sync()
                     if store.schema_version() > SCHEMA_VERSION:
                         raise StateFromNewerVersion("newer schema")
                     # Built lazily and retried: a transient codex.exe probe failure (an
